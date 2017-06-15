@@ -1,0 +1,11 @@
+use_frameworks!
+
+target 'PictureInPicture_Example' do
+  pod 'PictureInPicture', :path => '../'
+
+  target 'PictureInPicture_Tests' do
+    inherit! :search_paths
+
+    
+  end
+end
