@@ -11,12 +11,11 @@ import Foundation
 public final class PictureInPicture {
   public static let shared = PictureInPicture()
   
-  public func present() {
-    
+  public func present(with viewController: UIViewController) {
+    view.present(with: viewController)
   }
 
   private init() {}
   
-  private let window = PictureInPictureView()
-  
+  private let view = PictureInPictureView()
 }
