@@ -4,6 +4,8 @@
 [![License](https://img.shields.io/cocoapods/l/PictureInPicture.svg?style=flat)](http://cocoapods.org/pods/PictureInPicture)
 [![Platform](https://img.shields.io/cocoapods/p/PictureInPicture.svg?style=flat)](http://cocoapods.org/pods/PictureInPicture)
 
+![ScreenShot](https://raw.githubusercontent.com/malt03/PictureInPicture/master/README/Screenshot.gif)
+
 ## Example
 
 To run the example project, clone the repo, and run `pod install` from the Example directory first.
