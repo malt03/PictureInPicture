@@ -1,6 +1,5 @@
 # PictureInPicture
 
-[![CI Status](http://img.shields.io/travis/Koji Murata/PictureInPicture.svg?style=flat)](https://travis-ci.org/Koji Murata/PictureInPicture)
 [![Version](https://img.shields.io/cocoapods/v/PictureInPicture.svg?style=flat)](http://cocoapods.org/pods/PictureInPicture)
 [![License](https://img.shields.io/cocoapods/l/PictureInPicture.svg?style=flat)](http://cocoapods.org/pods/PictureInPicture)
 [![Platform](https://img.shields.io/cocoapods/p/PictureInPicture.svg?style=flat)](http://cocoapods.org/pods/PictureInPicture)
@@ -22,7 +21,7 @@ pod "PictureInPicture"
 
 ## Author
 
-Koji Murata, koji.murata@dena.com
+Koji Murata, malt.koji@gmail.com
 
 ## License
 
