@@ -15,7 +15,6 @@ final class ViewController: UIViewController {
   }
   
   @IBAction func dismiss() {
-    PictureInPicture.shared.dismiss()
+    PictureInPicture.shared.dismiss(animation: true)
   }
 }
-

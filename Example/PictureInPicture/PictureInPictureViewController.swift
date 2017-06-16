@@ -11,6 +11,6 @@ import PictureInPicture
 
 final class PictureInPictureViewController: UIViewController {
   @IBAction private func dismiss() {
-    PictureInPicture.shared.dismiss()
+    PictureInPicture.shared.dismiss(animation: true)
   }
 }

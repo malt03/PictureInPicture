@@ -56,7 +56,7 @@ final class PictureInPictureView: ContainerView {
   }
   
   var movable = true
-  var animationDuration = 0.3
+  var animationDuration = 0.2
   
   override func present(with viewController: UIViewController) {
     super.present(with: viewController)
@@ -72,27 +72,37 @@ final class PictureInPictureView: ContainerView {
     }
   }
   
-  func dismiss(completion: @escaping (() -> Void)) {
-    if isLargeState {
-      UIView.animate(withDuration: animationDuration, animations: {
-        self.frame.origin.y = self.superview!.bounds.height
-      }, completion: { _ in
-        super.dismiss()
-        self.removeFromSuperview()
-        completion()
-      })
+  func dismiss(animation: Bool, completion: @escaping (() -> Void) = {}) {
+    if animation {
+      if isLargeState {
+        UIView.animate(withDuration: animationDuration, animations: {
+          self.frame.origin.y = self.superview!.bounds.height
+        }, completion: { _ in
+          super.dismiss()
+          self.removeFromSuperview()
+          completion()
+        })
+      } else {
+        UIView.animate(withDuration: animationDuration, animations: {
+          self.alpha = 0
+        }, completion: { _ in
+          super.dismiss()
+          self.removeFromSuperview()
+          completion()
+        })
+      }
     } else {
-      UIView.animate(withDuration: animationDuration, animations: {
-        self.alpha = 0
-      }, completion: { _ in
-        super.dismiss()
-        self.removeFromSuperview()
-        completion()
-      })
+      super.dismiss()
+      self.removeFromSuperview()
+      completion()
     }
   }
   
-  init() {
+  private var disposeHandler: (() -> Void)
+  
+  init(disposeHandler: @escaping (() -> Void)) {
+    self.disposeHandler = disposeHandler
+
     super.init(frame: UIScreen.main.bounds)
 
     backgroundColor = UIColor(white: 0, alpha: 0.5)
@@ -102,6 +112,7 @@ final class PictureInPictureView: ContainerView {
   }
   
   required init?(coder aDecoder: NSCoder) {
+    disposeHandler = {}
     super.init(coder: aDecoder)
   }
   
@@ -193,12 +204,26 @@ final class PictureInPictureView: ContainerView {
       }
     } else {
       let location = sender.location(in: superview!)
-      let v: VerticalEdge = location.y < superview!.bounds.height / 2 ? .top : .bottom
-      let h: HorizontalEdge = location.x < superview!.bounds.width / 2 ? .left : .right
-      currentCorner = Corner(v, h)
-      UIView.animate(withDuration: animationDuration, animations: {
-        self.applyTransform(corner: self.currentCorner)
-      })
+      let velocity = sender.velocity(in: superview!)
+      let locationInFeature = CGPoint(x: location.x + velocity.x * 0.1, y: location.y + velocity.y * 0.1)
+      
+      if superview!.bounds.contains(locationInFeature) {
+        let v: VerticalEdge = location.y < superview!.bounds.height / 2 ? .top : .bottom
+        let h: HorizontalEdge = location.x < superview!.bounds.width / 2 ? .left : .right
+        currentCorner = Corner(v, h)
+        UIView.animate(withDuration: animationDuration, animations: {
+          self.applyTransform(corner: self.currentCorner)
+        })
+      } else {
+        disposeHandler()
+        let translate = sender.translation(in: superview!)
+        UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveLinear, animations: {
+          let translateInFeature = CGPoint(x: translate.x + velocity.x, y: translate.y + velocity.y)
+          self.applyTransform(rate: 1, corner: self.currentCorner, translate: translateInFeature)
+        }, completion: { _ in
+          self.dismiss(animation: false)
+        })
+      }
     }
   }
   

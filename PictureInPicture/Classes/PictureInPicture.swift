@@ -15,17 +15,19 @@ public final class PictureInPicture {
     viewCreateIfNeeded.present(with: viewController)
   }
   
-  public func dismiss() {
-    view?.dismiss {
+  public func dismiss(animation: Bool = true) {
+    view?.dismiss(animation: animation) {
       self.view = nil
     }
   }
-
+  
   private init() {}
   
   private var viewCreateIfNeeded: PictureInPictureView {
     if let v = view { return v }
-    let v = PictureInPictureView()
+    let v = PictureInPictureView {
+      self.view = nil
+    }
     view = v
     return v
   }
