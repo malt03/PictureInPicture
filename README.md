@@ -23,7 +23,20 @@ PictureInPicture.configure(movable: false, scale: 0.3, margin: 10)
 PictureInPicture.shared.present(with: viewController)
 ```
 
-###
+### Dismiss
+```swift
+PictureInPicture.shared.dismiss()
+```
+
+### Make Smaller
+```swift
+PictureInPicture.shared.makeSmaller()
+```
+
+### Make Larger
+```swift
+PictureInPicture.shared.makeLarger()
+```
 
 ## Installation
 
