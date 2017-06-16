@@ -130,11 +130,11 @@ final class PictureInPictureView: ContainerView {
   
   private func applyLarge() {
     if isLargeState { return }
-    isLargeState = true
     currentCorner = .bottomRight
     UIView.animate(withDuration: animationDuration, delay: 0, options: .curveEaseOut, animations: {
       self.applyTransform(rate: 0)
     }, completion: nil)
+    isLargeState = true
   }
   
   @objc private func panned(_ sender: UIPanGestureRecognizer) {
@@ -155,6 +155,9 @@ final class PictureInPictureView: ContainerView {
   private var isLargeState = true {
     didSet {
       viewController?.view.isUserInteractionEnabled = isLargeState
+      
+      removeFromSuperview()
+      UIApplication.shared.keyWindow?.addSubview(self)
     }
   }
   
@@ -296,7 +299,9 @@ final class PictureInPictureView: ContainerView {
   }
   
   @objc private func orientationDidChange() {
-    bounds = superview!.bounds
-    applyTransform(rate: isLargeState ? 0 : 1, corner: currentCorner, translate: .zero)
+    DispatchQueue.main.async {
+      self.bounds = self.superview!.bounds
+      self.applyTransform(rate: self.isLargeState ? 0 : 1, corner: self.currentCorner, translate: .zero)
+    }
   }
 }
