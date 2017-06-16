@@ -16,6 +16,7 @@ To run the example project, clone the repo, and run `pod install` from the Examp
 
 ### Configure
 If you want to change from default value.
+
 Default: PictureInPicture.configure(movable: true, scale: 0.2, margin: 8, defaultEdge: .right)
 
 ```swift
