@@ -22,6 +22,7 @@ public final class PictureInPicture {
   public static let shared = PictureInPicture()
   
   public func present(with viewController: UIViewController) {
+    UIView.exchangeDidAddSubview()
     viewCreateIfNeeded.present(with: viewController)
   }
   

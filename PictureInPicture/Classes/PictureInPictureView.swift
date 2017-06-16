@@ -280,8 +280,13 @@ final class PictureInPictureView: ContainerView {
   }
   
   private func prepareNotifications() {
+    NotificationCenter.default.addObserver(self, selector: #selector(bringToFront), name: .PictureInPictureUIWindowDidAddSubview, object: nil)
     NotificationCenter.default.addObserver(self, selector: #selector(addSubviewOnKeyWindow), name: .UIWindowDidBecomeKey, object: nil)
     NotificationCenter.default.addObserver(self, selector: #selector(orientationDidChange), name: .UIDeviceOrientationDidChange, object: nil)
+  }
+  
+  @objc private func bringToFront() {
+    superview?.bringSubview(toFront: self)
   }
   
   @objc private func addSubviewOnKeyWindow() {
