@@ -9,52 +9,6 @@
 import UIKit
 
 final class PictureInPictureView: ContainerView {
-  enum VerticalEdge {
-    case top
-    case bottom
-  }
-  
-  enum HorizontalEdge {
-    case left
-    case right
-  }
-  
-  enum Corner {
-    case topLeft
-    case topRight
-    case bottomLeft
-    case bottomRight
-    
-    var verticalEdge: VerticalEdge {
-      switch self {
-      case .topLeft, .topRight: return .top
-      case .bottomLeft, .bottomRight: return .bottom
-      }
-    }
-    
-    var horizontalEdge: HorizontalEdge {
-      switch self {
-      case .topLeft, .bottomLeft: return .left
-      case .topRight, .bottomRight: return .right
-      }
-    }
-    
-    init(_ verticalEdge: VerticalEdge, _ horizontalEdge: HorizontalEdge) {
-      switch verticalEdge {
-      case .top:
-        switch horizontalEdge {
-        case .left:  self = .topLeft
-        case .right: self = .topRight
-        }
-      case .bottom:
-        switch horizontalEdge {
-        case .left:  self = .bottomLeft
-        case .right: self = .bottomRight
-        }
-      }
-    }
-  }
-  
   private var animationDuration: TimeInterval { return 0.2 }
   
   override func present(with viewController: UIViewController) {
@@ -115,7 +69,7 @@ final class PictureInPictureView: ContainerView {
   
   private let panGestureRecognizer = UIPanGestureRecognizer()
   private let tapGestureRecognizer = UITapGestureRecognizer()
-  private var currentCorner = Corner.bottomRight
+  private var currentCorner = PictureInPicture.defaultCorner
   
   private func addGestureRecognizers() {
     panGestureRecognizer.addTarget(self, action: #selector(panned(_:)))
@@ -128,13 +82,21 @@ final class PictureInPictureView: ContainerView {
     applyLarge()
   }
   
-  private func applyLarge() {
+  func applyLarge() {
     if isLargeState { return }
-    currentCorner = .bottomRight
+    currentCorner = PictureInPicture.defaultCorner
     UIView.animate(withDuration: animationDuration, delay: 0, options: .curveEaseOut, animations: {
       self.applyTransform(rate: 0)
     }, completion: nil)
     isLargeState = true
+  }
+  
+  func applySmall() {
+    if !isLargeState { return }
+    UIView.animate(withDuration: animationDuration, delay: 0, options: .curveEaseOut, animations: {
+      self.applyTransform(rate: 1)
+    }, completion: nil)
+    isLargeState = false
   }
   
   @objc private func panned(_ sender: UIPanGestureRecognizer) {
@@ -243,9 +205,9 @@ final class PictureInPictureView: ContainerView {
       let locationInFeature = CGPoint(x: location.x + velocity.x * 0.05, y: location.y + velocity.y * 0.05)
       
       if superview!.bounds.contains(locationInFeature) {
-        let v: VerticalEdge = locationInFeature.y < superview!.bounds.height / 2 ? .top : .bottom
-        let h: HorizontalEdge = locationInFeature.x < superview!.bounds.width / 2 ? .left : .right
-        currentCorner = Corner(v, h)
+        let v: PictureInPicture.VerticalEdge = locationInFeature.y < superview!.bounds.height / 2 ? .top : .bottom
+        let h: PictureInPicture.HorizontalEdge = locationInFeature.x < superview!.bounds.width / 2 ? .left : .right
+        currentCorner = PictureInPicture.Corner(v, h)
         UIView.animate(withDuration: animationDuration, animations: {
           self.applyTransform(corner: self.currentCorner)
         })
@@ -266,7 +228,7 @@ final class PictureInPictureView: ContainerView {
   private var centerWhenSmall: CGFloat { return superview!.bounds.height - bounds.height * PictureInPicture.scale / 2 - PictureInPicture.margin }
   private var centerWhenLarge: CGFloat { return superview!.bounds.height / 2 }
   
-  private func applyTransform(rate: CGFloat = 1, corner: Corner = .bottomRight, translate: CGPoint = .zero) {
+  private func applyTransform(rate: CGFloat = 1, corner: PictureInPicture.Corner = PictureInPicture.defaultCorner, translate: CGPoint = .zero) {
     let x: CGFloat
     let y: CGFloat
     switch corner.horizontalEdge {

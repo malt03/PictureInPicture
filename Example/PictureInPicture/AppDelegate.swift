@@ -15,7 +15,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   var window: UIWindow?
   
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-    PictureInPicture.configure(movable: false, scale: 0.3, margin: 10)
+    PictureInPicture.configure(movable: true, scale: 0.3, margin: 10, defaultEdge: .left)
     return true
   }
 }

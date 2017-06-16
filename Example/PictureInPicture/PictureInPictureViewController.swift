@@ -14,6 +14,10 @@ final class PictureInPictureViewController: UIViewController, UITableViewDataSou
     PictureInPicture.shared.dismiss(animation: true)
   }
   
+  @IBAction private func makeSmaller() {
+    PictureInPicture.shared.makeSmaller()
+  }
+
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     return 20
   }
