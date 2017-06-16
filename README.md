@@ -43,6 +43,11 @@ PictureInPicture.shared.makeSmaller()
 PictureInPicture.shared.makeLarger()
 ```
 
+### Get presenting ViewController
+```swift
+PictureInPicture.shared.presentingViewController
+```
+
 ## Installation
 
 PictureInPicture is available through [CocoaPods](http://cocoapods.org). To install

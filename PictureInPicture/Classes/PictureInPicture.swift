@@ -45,6 +45,10 @@ public final class PictureInPicture {
     view = nil
   }
   
+  public var presentingViewController: UIViewController? {
+    return view?.viewController
+  }
+  
   private init() {}
   
   private var viewCreateIfNeeded: PictureInPictureView {
