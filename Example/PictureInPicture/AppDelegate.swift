@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import PictureInPicture
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -14,6 +15,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   var window: UIWindow?
   
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+    PictureInPicture.configure(movable: false, scale: 0.3, margin: 10)
     return true
   }
 }

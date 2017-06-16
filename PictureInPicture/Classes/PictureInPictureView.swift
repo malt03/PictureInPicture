@@ -9,6 +9,16 @@
 import UIKit
 
 final class PictureInPictureView: ContainerView {
+  enum VerticalEdge {
+    case top
+    case bottom
+  }
+  
+  enum HorizontalEdge {
+    case left
+    case right
+  }
+  
   enum Corner {
     case topLeft
     case topRight
@@ -45,18 +55,7 @@ final class PictureInPictureView: ContainerView {
     }
   }
   
-  enum VerticalEdge {
-    case top
-    case bottom
-  }
-  
-  enum HorizontalEdge {
-    case left
-    case right
-  }
-  
-  var movable = true
-  var animationDuration = 0.2
+  private var animationDuration: TimeInterval { return 0.2 }
   
   override func present(with viewController: UIViewController) {
     super.present(with: viewController)
@@ -72,7 +71,7 @@ final class PictureInPictureView: ContainerView {
     }
   }
   
-  func dismiss(animation: Bool, completion: @escaping (() -> Void) = {}) {
+  func dismiss(animation: Bool) {
     if animation {
       if isLargeState {
         UIView.animate(withDuration: animationDuration, animations: {
@@ -80,7 +79,6 @@ final class PictureInPictureView: ContainerView {
         }, completion: { _ in
           super.dismiss()
           self.removeFromSuperview()
-          completion()
         })
       } else {
         UIView.animate(withDuration: animationDuration, animations: {
@@ -88,13 +86,11 @@ final class PictureInPictureView: ContainerView {
         }, completion: { _ in
           super.dismiss()
           self.removeFromSuperview()
-          completion()
         })
       }
     } else {
       super.dismiss()
       self.removeFromSuperview()
-      completion()
     }
   }
   
@@ -142,7 +138,11 @@ final class PictureInPictureView: ContainerView {
   
   @objc private func panned(_ sender: UIPanGestureRecognizer) {
     switch sender.state {
-    case .began, .changed:
+    case .began:
+      let velocity = sender.velocity(in: superview!)
+      isPanVectorVertical = abs(velocity.x) < abs(velocity.y)
+      panChanged(sender)
+    case .changed:
       panChanged(sender)
     case .cancelled, .ended:
       panEnded(sender)
@@ -151,65 +151,96 @@ final class PictureInPictureView: ContainerView {
     }
   }
   
-  private var isLargeState = true
+  private var isLargeState = true {
+    didSet {
+      viewController?.view.isUserInteractionEnabled = isLargeState
+    }
+  }
+  
+  private var isPanVectorVertical = true
   
   private func panChanged(_ sender: UIPanGestureRecognizer) {
-    if isLargeState || !movable {
-      let translation = sender.translation(in: superview!).y
-      let location = sender.location(in: superview!).y
-      let beginningLocation = location - translation
-      
-      let rate: CGFloat
-      
-      if isLargeState {
-        rate = min(1, max(0, translation / (centerWhenSmall - beginningLocation)))
+    if isLargeState || !PictureInPicture.movable {
+      if isPanVectorVertical || isLargeState {
+        let translation = sender.translation(in: superview!).y
+        let location = sender.location(in: superview!).y
+        let beginningLocation = location - translation
+        
+        let rate: CGFloat
+        
+        if isLargeState {
+          rate = min(1, max(0, translation / (centerWhenSmall - beginningLocation)))
+        } else {
+          rate = 1 - min(1, max(0, translation / (centerWhenLarge - beginningLocation)))
+        }
+        
+        applyTransform(rate: rate)
       } else {
-        rate = 1 - min(1, max(0, translation / (centerWhenLarge - beginningLocation)))
+        applyTransform(translate: CGPoint(x: sender.translation(in: superview!).x, y: 0))
       }
-      
-      applyTransform(rate: rate)
     } else {
       applyTransform(corner: currentCorner, translate: sender.translation(in: superview!))
     }
   }
   
   private func panEnded(_ sender: UIPanGestureRecognizer) {
-    if isLargeState || !movable {
-      let translation = sender.translation(in: superview!).y
-      let location = sender.location(in: superview!).y
-      let beginningLocation = location - translation
-      let endLocation = isLargeState ? centerWhenSmall : centerWhenLarge
-      let velocity = sender.velocity(in: superview!).y
-      
-      let isApply = (location + velocity * 0.1 - beginningLocation) / (endLocation - beginningLocation) > 0.5
-      let isToSmall = isLargeState == isApply
-      
-      let v: CGFloat
-      if isApply {
-        v = velocity / (endLocation - location)
+    if isLargeState || !PictureInPicture.movable {
+      if isPanVectorVertical || isLargeState {
+        let translation = sender.translation(in: superview!).y
+        let location = sender.location(in: superview!).y
+        let beginningLocation = location - translation
+        let endLocation = isLargeState ? centerWhenSmall : centerWhenLarge
+        let velocity = sender.velocity(in: superview!).y
+        
+        let isApply = (location + velocity * 0.1 - beginningLocation) / (endLocation - beginningLocation) > 0.5
+        let isToSmall = isLargeState == isApply
+        
+        let v: CGFloat
+        if isApply {
+          v = velocity / (endLocation - location)
+        } else {
+          v = velocity / (beginningLocation - location)
+        }
+        
+        if isToSmall {
+          UIView.animate(withDuration: animationDuration, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: v, options: .curveLinear, animations: {
+            self.applyTransform(rate: 1)
+          }, completion: nil)
+          isLargeState = false
+        } else {
+          UIView.animate(withDuration: animationDuration, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: v, options: .curveLinear, animations: {
+            self.applyTransform(rate: 0)
+          }, completion: nil)
+          isLargeState = true
+        }
       } else {
-        v = velocity / (beginningLocation - location)
-      }
-      
-      if isToSmall {
-        UIView.animate(withDuration: animationDuration, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: v, options: .curveLinear, animations: {
-          self.applyTransform(rate: 1)
-        }, completion: nil)
-        isLargeState = false
-      } else {
-        UIView.animate(withDuration: animationDuration, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: v, options: .curveLinear, animations: {
-          self.applyTransform(rate: 0)
-        }, completion: nil)
-        isLargeState = true
+        let location = sender.location(in: superview!).x
+        let velocity = sender.velocity(in: superview!).x
+        let locationInFeature = CGPoint(x: location + velocity * 0.2, y: 0)
+        
+        if superview!.bounds.contains(locationInFeature) {
+          UIView.animate(withDuration: animationDuration, animations: {
+            self.applyTransform()
+          })
+        } else {
+          disposeHandler()
+          let translate = sender.translation(in: superview!).x
+          UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveLinear, animations: {
+            let translateInFeature = CGPoint(x: translate + velocity, y: 0)
+            self.applyTransform(translate: translateInFeature)
+          }, completion: { _ in
+            self.dismiss(animation: false)
+          })
+        }
       }
     } else {
       let location = sender.location(in: superview!)
       let velocity = sender.velocity(in: superview!)
-      let locationInFeature = CGPoint(x: location.x + velocity.x * 0.1, y: location.y + velocity.y * 0.1)
+      let locationInFeature = CGPoint(x: location.x + velocity.x * 0.05, y: location.y + velocity.y * 0.05)
       
       if superview!.bounds.contains(locationInFeature) {
-        let v: VerticalEdge = location.y < superview!.bounds.height / 2 ? .top : .bottom
-        let h: HorizontalEdge = location.x < superview!.bounds.width / 2 ? .left : .right
+        let v: VerticalEdge = locationInFeature.y < superview!.bounds.height / 2 ? .top : .bottom
+        let h: HorizontalEdge = locationInFeature.x < superview!.bounds.width / 2 ? .left : .right
         currentCorner = Corner(v, h)
         UIView.animate(withDuration: animationDuration, animations: {
           self.applyTransform(corner: self.currentCorner)
@@ -219,7 +250,7 @@ final class PictureInPictureView: ContainerView {
         let translate = sender.translation(in: superview!)
         UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveLinear, animations: {
           let translateInFeature = CGPoint(x: translate.x + velocity.x, y: translate.y + velocity.y)
-          self.applyTransform(rate: 1, corner: self.currentCorner, translate: translateInFeature)
+          self.applyTransform(corner: self.currentCorner, translate: translateInFeature)
         }, completion: { _ in
           self.dismiss(animation: false)
         })
@@ -227,25 +258,23 @@ final class PictureInPictureView: ContainerView {
     }
   }
   
-  private var scale: CGFloat { return 0.2 }
-  private var centerEdgeDistance: CGFloat { return 0.5 - scale / 2 }
-  private var margin: CGFloat { return 8 }
-  private var centerWhenSmall: CGFloat { return superview!.bounds.height - bounds.height * scale / 2 - margin }
+  private var centerEdgeDistance: CGFloat { return 0.5 - PictureInPicture.scale / 2 }
+  private var centerWhenSmall: CGFloat { return superview!.bounds.height - bounds.height * PictureInPicture.scale / 2 - PictureInPicture.margin }
   private var centerWhenLarge: CGFloat { return superview!.bounds.height / 2 }
   
   private func applyTransform(rate: CGFloat = 1, corner: Corner = .bottomRight, translate: CGPoint = .zero) {
     let x: CGFloat
     let y: CGFloat
     switch corner.horizontalEdge {
-    case .left:  x = rate * (-superview!.bounds.width * centerEdgeDistance + margin)
-    case .right: x = rate * (superview!.bounds.width * centerEdgeDistance - margin)
+    case .left:  x = rate * (-superview!.bounds.width * centerEdgeDistance + PictureInPicture.margin)
+    case .right: x = rate * (superview!.bounds.width * centerEdgeDistance - PictureInPicture.margin)
     }
     switch corner.verticalEdge {
-    case .top:    y = rate * (-superview!.bounds.height * centerEdgeDistance + margin)
-    case .bottom: y = rate * (superview!.bounds.height * centerEdgeDistance - margin)
+    case .top:    y = rate * (-superview!.bounds.height * centerEdgeDistance + PictureInPicture.margin)
+    case .bottom: y = rate * (superview!.bounds.height * centerEdgeDistance - PictureInPicture.margin)
     }
     center = CGPoint(x: x + translate.x + superview!.bounds.width / 2, y: y + translate.y + superview!.bounds.height / 2)
-    let applyScale = 1 - (1 - scale) * rate
+    let applyScale = 1 - (1 - PictureInPicture.scale) * rate
     transform = CGAffineTransform(scaleX: applyScale, y: applyScale)
   }
   

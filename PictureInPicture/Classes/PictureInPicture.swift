@@ -9,6 +9,16 @@
 import Foundation
 
 public final class PictureInPicture {
+  public static func configure(movable: Bool = true, scale: CGFloat = 0.2, margin: CGFloat = 8) {
+    self.movable = movable
+    self.scale = scale
+    self.margin = margin
+  }
+  
+  static var movable = true
+  static var scale = CGFloat(0.2)
+  static var margin = CGFloat(8)
+  
   public static let shared = PictureInPicture()
   
   public func present(with viewController: UIViewController) {
@@ -16,9 +26,8 @@ public final class PictureInPicture {
   }
   
   public func dismiss(animation: Bool = true) {
-    view?.dismiss(animation: animation) {
-      self.view = nil
-    }
+    view?.dismiss(animation: animation)
+    view = nil
   }
   
   private init() {}
