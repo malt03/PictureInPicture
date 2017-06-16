@@ -1,8 +1,10 @@
 # PictureInPicture
 
 [![Version](https://img.shields.io/cocoapods/v/PictureInPicture.svg?style=flat)](http://cocoapods.org/pods/PictureInPicture)
-[![License](https://img.shields.io/cocoapods/l/PictureInPicture.svg?style=flat)](http://cocoapods.org/pods/PictureInPicture)
-[![Platform](https://img.shields.io/cocoapods/p/PictureInPicture.svg?style=flat)](http://cocoapods.org/pods/PictureInPicture)
+![Language](https://img.shields.io/badge/language-Swift%203.1-orange.svg)
+[![CocoaPods](https://img.shields.io/cocoapods/v/PictureInPicture.svg?style=flat)](http://cocoapods.org/pods/PictureInPicture)
+[![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
+![License](https://img.shields.io/github/license/malt03/PictureInPicture.svg?style=flat)
 
 ![ScreenShot](https://raw.githubusercontent.com/malt03/PictureInPicture/master/README/Screenshot.gif)
 
