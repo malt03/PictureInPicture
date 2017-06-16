@@ -62,6 +62,7 @@ final class PictureInPictureView: ContainerView {
     
     if superview == nil {
       UIApplication.shared.keyWindow?.addSubview(self)
+      bounds = superview!.bounds
       frame.origin.y = superview!.bounds.height
       UIView.animate(withDuration: animationDuration, delay: 0, options: .curveEaseOut, animations: {
         self.frame.origin.y = 0
@@ -286,8 +287,11 @@ final class PictureInPictureView: ContainerView {
   @objc private func addSubviewOnKeyWindow() {
     removeFromSuperview()
     UIApplication.shared.keyWindow?.addSubview(self)
+    bounds = superview!.bounds
   }
   
   @objc private func orientationDidChange() {
+    bounds = superview!.bounds
+    applyTransform(rate: isLargeState ? 0 : 1, corner: currentCorner, translate: .zero)
   }
 }
