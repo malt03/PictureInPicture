@@ -22,18 +22,17 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lW7-lE-GDL">
-                                <rect key="frame" x="164" y="318" width="46" height="30"/>
-                                <state key="normal" title="Button"/>
+                                <rect key="frame" x="160.5" y="318" width="53" height="30"/>
+                                <state key="normal" title="Present"/>
                                 <connections>
-                                    <action selector="tapped" destination="vXZ-lx-hvc" eventType="touchUpInside" id="NEA-Tr-1N4"/>
+                                    <action selector="present" destination="vXZ-lx-hvc" eventType="touchUpInside" id="faQ-Lv-YWs"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wR7-5c-9vk">
-                                <rect key="frame" x="164" y="144" width="46" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Button"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="M8L-Oh-iIP">
+                                <rect key="frame" x="160" y="364" width="54" height="30"/>
+                                <state key="normal" title="Dismiss"/>
                                 <connections>
-                                    <segue destination="BCA-qK-Sou" kind="presentation" id="ZVp-cb-Chl"/>
+                                    <action selector="dismiss" destination="vXZ-lx-hvc" eventType="touchUpInside" id="wbd-nC-mkk"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -41,16 +40,18 @@
                         <constraints>
                             <constraint firstItem="lW7-lE-GDL" firstAttribute="centerX" secondItem="kh9-bI-dsS" secondAttribute="centerX" id="0j8-YK-PKy"/>
                             <constraint firstItem="lW7-lE-GDL" firstAttribute="centerY" secondItem="kh9-bI-dsS" secondAttribute="centerY" id="DhM-w0-jgR"/>
+                            <constraint firstItem="M8L-Oh-iIP" firstAttribute="centerX" secondItem="kh9-bI-dsS" secondAttribute="centerX" id="xP0-z8-gtc"/>
+                            <constraint firstItem="M8L-Oh-iIP" firstAttribute="top" secondItem="lW7-lE-GDL" secondAttribute="bottom" constant="16" id="zJK-ZD-9Wk"/>
                         </constraints>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
             </objects>
         </scene>
-        <!--View Controller-->
+        <!--Picture In Picture View Controller-->
         <scene sceneID="bHW-XG-nBd">
             <objects>
-                <viewController storyboardIdentifier="PiP" id="BCA-qK-Sou" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="PiP" id="BCA-qK-Sou" customClass="PictureInPictureViewController" customModule="PictureInPicture_Example" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="dia-Wl-Lqh"/>
                         <viewControllerLayoutGuide type="bottom" id="fJe-Ju-HP5"/>
@@ -65,17 +66,26 @@
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ha6-Qg-BUU">
+                                <rect key="frame" x="313" y="28" width="46" height="30"/>
+                                <state key="normal" title="Button"/>
+                                <connections>
+                                    <action selector="dismiss" destination="BCA-qK-Sou" eventType="touchUpInside" id="X6u-rC-nVS"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="0.0" green="0.25098040700000002" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="I1O-qp-xfa" firstAttribute="centerX" secondItem="pWS-7m-UdF" secondAttribute="centerX" id="51U-pH-nl5"/>
                             <constraint firstItem="I1O-qp-xfa" firstAttribute="centerY" secondItem="pWS-7m-UdF" secondAttribute="centerY" id="FSe-uC-v62"/>
+                            <constraint firstAttribute="trailing" secondItem="ha6-Qg-BUU" secondAttribute="trailing" constant="16" id="M77-Xc-uUf"/>
+                            <constraint firstItem="ha6-Qg-BUU" firstAttribute="top" secondItem="dia-Wl-Lqh" secondAttribute="bottom" constant="8" id="O7R-va-eSX"/>
                         </constraints>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rix-1P-Iaf" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="833" y="36"/>
+            <point key="canvasLocation" x="881" y="139"/>
         </scene>
     </scenes>
 </document>

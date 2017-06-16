@@ -10,8 +10,12 @@ import UIKit
 import PictureInPicture
 
 final class ViewController: UIViewController {
-  @IBAction func tapped() {
+  @IBAction func present() {
     PictureInPicture.shared.present(with: UIStoryboard(name: "Main", bundle: .main).instantiateViewController(withIdentifier: "PiP"))
+  }
+  
+  @IBAction func dismiss() {
+    PictureInPicture.shared.dismiss()
   }
 }
 

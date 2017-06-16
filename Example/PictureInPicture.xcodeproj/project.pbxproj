@@ -13,6 +13,7 @@
 		607FACDD1AFB9204008FA782 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDC1AFB9204008FA782 /* Images.xcassets */; };
 		607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDE1AFB9204008FA782 /* LaunchScreen.xib */; };
 		9A023E28354E376AC4832FFA /* Pods_PictureInPicture_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D91AF708F077009BACA7F01F /* Pods_PictureInPicture_Example.framework */; };
+		ED6CAC291F1DD42900CA3BE2 /* PictureInPictureViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED6CAC281F1DD42900CA3BE2 /* PictureInPictureViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +31,7 @@
 		D7BE635C8EF391B207724EC3 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		D91AF708F077009BACA7F01F /* Pods_PictureInPicture_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PictureInPicture_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E6ADB58CEEECCFA151B509E1 /* Pods_PictureInPicture_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PictureInPicture_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		ED6CAC281F1DD42900CA3BE2 /* PictureInPictureViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PictureInPictureViewController.swift; sourceTree = "<group>"; };
 		FA8B54E2DCC3EC3A09045C6E /* Pods-PictureInPicture_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PictureInPicture_Example.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PictureInPicture_Example/Pods-PictureInPicture_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		FBC4F9E6C340776BCA072F2B /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -85,6 +87,7 @@
 				607FACDC1AFB9204008FA782 /* Images.xcassets */,
 				607FACDE1AFB9204008FA782 /* LaunchScreen.xib */,
 				607FACD31AFB9204008FA782 /* Supporting Files */,
+				ED6CAC281F1DD42900CA3BE2 /* PictureInPictureViewController.swift */,
 			);
 			name = "Example for PictureInPicture";
 			path = PictureInPicture;
@@ -244,6 +247,7 @@
 			files = (
 				607FACD81AFB9204008FA782 /* ViewController.swift in Sources */,
 				607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */,
+				ED6CAC291F1DD42900CA3BE2 /* PictureInPictureViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -72,6 +72,26 @@ final class PictureInPictureView: ContainerView {
     }
   }
   
+  func dismiss(completion: @escaping (() -> Void)) {
+    if isLargeState {
+      UIView.animate(withDuration: animationDuration, animations: {
+        self.frame.origin.y = self.superview!.bounds.height
+      }, completion: { _ in
+        super.dismiss()
+        self.removeFromSuperview()
+        completion()
+      })
+    } else {
+      UIView.animate(withDuration: animationDuration, animations: {
+        self.alpha = 0
+      }, completion: { _ in
+        super.dismiss()
+        self.removeFromSuperview()
+        completion()
+      })
+    }
+  }
+  
   init() {
     super.init(frame: UIScreen.main.bounds)
 
