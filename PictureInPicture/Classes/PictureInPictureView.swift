@@ -72,6 +72,11 @@ final class PictureInPictureWindow: UIWindow {
 
     prepareNotifications()
     addGestureRecognizers()
+    
+    layer.shadowColor = PictureInPicture.shadowConfig.color.cgColor
+    layer.shadowOffset = PictureInPicture.shadowConfig.offset
+    layer.shadowRadius = PictureInPicture.shadowConfig.radius
+    layer.shadowOpacity = PictureInPicture.shadowConfig.opacity
   }
   
   required init?(coder aDecoder: NSCoder) {

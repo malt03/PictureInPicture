@@ -19,16 +19,33 @@ public let PictureInPictureOldCornerUserInfoKey = "PictureInPictureOldCornerUser
 public let PictureInPictureNewCornerUserInfoKey = "PictureInPictureNewCornerUserInfoKey"
 
 public final class PictureInPicture {
-  public static func configure(movable: Bool = true, scale: CGFloat = 0.2, margin: CGFloat = 8, defaultEdge: HorizontalEdge = .right) {
+  public struct ShadowConfig {
+    let color: UIColor
+    let offset: CGSize
+    let radius: CGFloat
+    let opacity: Float
+    
+    public static var `default`: ShadowConfig {
+      return ShadowConfig(color: .black, offset: .zero, radius: 5, opacity: 0.5)
+    }
+  }
+  
+  public static func configure(movable: Bool = true,
+                               scale: CGFloat = 0.2,
+                               margin: CGFloat = 8,
+                               defaultEdge: HorizontalEdge = .right,
+                               shadowConfig: ShadowConfig = .default) {
     self.movable = movable
     self.scale = scale
     self.margin = margin
     self.defaultEdge = defaultEdge
+    self.shadowConfig = shadowConfig
   }
   
-  static var movable = true
-  static var scale = CGFloat(0.2)
-  static var margin = CGFloat(8)
+  private(set) static var movable = true
+  private(set) static var scale = CGFloat(0.2)
+  private(set) static var margin = CGFloat(8)
+  private(set) static var shadowConfig = ShadowConfig.default
   private static var defaultEdge = HorizontalEdge.right
   
   static var defaultCorner: Corner {
