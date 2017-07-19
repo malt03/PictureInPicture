@@ -11,13 +11,27 @@
 ## Configure
 If you want to change from default value.
 
-Default configure: `PictureInPicture.configure(movable: true, scale: 0.2, margin: 8, defaultEdge: .right, shadowConfig: .default)`
-
-Default shadow config: `ShadowConfig(color: .black, offset: .zero, radius: 5, opacity: 0.5)`
-
 ```swift
 let shadowConfig = PictureInPicture.ShadowConfig(color: .black, offset: .zero, radius: 10, opacity: 1)
-PictureInPicture.configure(movable: true, scale: 0.3, margin: 10, defaultEdge: .left, shadowConfig: shadowConfig)
+PictureInPicture.configure(movable: true,
+                           scale: 0.3,
+                           margin: 10,
+                           defaultEdge: .left,
+                           shadowConfig: shadowConfig)
+```
+
+### Default Config
+```swift
+PictureInPicture.configure(movable: true,
+                           scale: 0.2,
+                           margin: 8,
+                           defaultEdge: .right,
+                           shadowConfig: .default)
+```
+
+### Default Shadow Config
+```swift
+ShadowConfig(color: .black, offset: .zero, radius: 5, opacity: 0.5)
 ```
 
 ## Usage
