@@ -12,6 +12,7 @@
 		ED6CAC4A1F1EFBED00CA3BE2 /* PictureInPicture.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED6CAC461F1EFBED00CA3BE2 /* PictureInPicture.swift */; };
 		ED6CAC4B1F1EFBED00CA3BE2 /* PictureInPictureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED6CAC471F1EFBED00CA3BE2 /* PictureInPictureView.swift */; };
 		ED6CAC4C1F1EFBED00CA3BE2 /* UIWindow+DidAddSubview.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED6CAC481F1EFBED00CA3BE2 /* UIWindow+DidAddSubview.swift */; };
+		ED6CAC7D1F1F45C500CA3BE2 /* UIViewController+setNeedsUpdateConstraints.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED6CAC7C1F1F45C500CA3BE2 /* UIViewController+setNeedsUpdateConstraints.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +23,7 @@
 		ED6CAC461F1EFBED00CA3BE2 /* PictureInPicture.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PictureInPicture.swift; path = ../../../PictureInPicture/Classes/PictureInPicture.swift; sourceTree = "<group>"; };
 		ED6CAC471F1EFBED00CA3BE2 /* PictureInPictureView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PictureInPictureView.swift; path = ../../../PictureInPicture/Classes/PictureInPictureView.swift; sourceTree = "<group>"; };
 		ED6CAC481F1EFBED00CA3BE2 /* UIWindow+DidAddSubview.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIWindow+DidAddSubview.swift"; path = "../../../PictureInPicture/Classes/UIWindow+DidAddSubview.swift"; sourceTree = "<group>"; };
+		ED6CAC7C1F1F45C500CA3BE2 /* UIViewController+setNeedsUpdateConstraints.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIViewController+setNeedsUpdateConstraints.swift"; path = "../../../PictureInPicture/Classes/UIViewController+setNeedsUpdateConstraints.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,6 +61,7 @@
 				ED6CAC461F1EFBED00CA3BE2 /* PictureInPicture.swift */,
 				ED6CAC471F1EFBED00CA3BE2 /* PictureInPictureView.swift */,
 				ED6CAC481F1EFBED00CA3BE2 /* UIWindow+DidAddSubview.swift */,
+				ED6CAC7C1F1F45C500CA3BE2 /* UIViewController+setNeedsUpdateConstraints.swift */,
 				ED6CAC3E1F1EFBC400CA3BE2 /* Info.plist */,
 			);
 			path = PictureInPicture;
@@ -148,6 +151,7 @@
 				ED6CAC4A1F1EFBED00CA3BE2 /* PictureInPicture.swift in Sources */,
 				ED6CAC491F1EFBED00CA3BE2 /* ContainerView.swift in Sources */,
 				ED6CAC4C1F1EFBED00CA3BE2 /* UIWindow+DidAddSubview.swift in Sources */,
+				ED6CAC7D1F1F45C500CA3BE2 /* UIViewController+setNeedsUpdateConstraints.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
