@@ -47,6 +47,10 @@ final class ViewController: UIViewController {
     super.viewWillDisappear(animated)
     NotificationCenter.default.removeObserver(self)
   }
+  
+  override var preferredStatusBarStyle: UIStatusBarStyle {
+    return .default
+  }
 }
 
 // Notifications

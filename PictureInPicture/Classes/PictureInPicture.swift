@@ -38,42 +38,41 @@ public final class PictureInPicture {
   public static let shared = PictureInPicture()
   
   public func present(with viewController: UIViewController, makeLargerIfNeeded: Bool = true) {
-    UIView.exchangeDidAddSubview()
-    viewCreateIfNeeded.present(with: viewController, makeLargerIfNeeded: makeLargerIfNeeded)
+    windowCreateIfNeeded.present(with: viewController, makeLargerIfNeeded: makeLargerIfNeeded)
   }
   
   public func makeLarger() {
-    view?.applyLarge()
+    window?.applyLarge()
   }
   
   public func makeSmaller() {
-    view?.applySmall()
+    window?.applySmall()
   }
   
   public func dismiss(animation: Bool = true) {
-    view?.dismiss(animation: animation)
-    view = nil
+    window?.dismiss(animation: animation)
+    window = nil
   }
   
   public var presentingViewController: UIViewController? {
-    return view?.viewController
+    return window?.rootViewController
   }
   
   public var currentCorner: Corner {
-    return view?.currentCorner ?? PictureInPicture.defaultCorner
+    return window?.currentCorner ?? PictureInPicture.defaultCorner
   }
   
   private init() {}
   
-  private var viewCreateIfNeeded: PictureInPictureView {
-    if let v = view { return v }
-    let v = PictureInPictureView {
-      self.view = nil
+  private var windowCreateIfNeeded: PictureInPictureWindow {
+    if let w = window { return w }
+    let w = PictureInPictureWindow {
+      self.window = nil
     }
-    view = v
-    return v
+    window = w
+    return w
   }
-  private var view: PictureInPictureView?
+  private(set) var window: PictureInPictureWindow?
 
   public enum HorizontalEdge {
     case left

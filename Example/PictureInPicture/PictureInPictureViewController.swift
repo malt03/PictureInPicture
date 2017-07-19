@@ -35,4 +35,8 @@ final class PictureInPictureViewController: UIViewController, UITableViewDataSou
     cell.textLabel?.text = "\(indexPath.row)"
     return cell
   }
+  
+  override var preferredStatusBarStyle: UIStatusBarStyle {
+    return .lightContent
+  }
 }

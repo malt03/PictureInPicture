@@ -8,19 +8,21 @@
 
 import UIKit
 
-final class PictureInPictureView: ContainerView {
+final class PictureInPictureWindow: UIWindow {
   private var animationDuration: TimeInterval { return 0.2 }
+  private var beforePresenting = true
   
   func present(with viewController: UIViewController, makeLargerIfNeeded: Bool) {
-    super.present(with: viewController)
+    rootViewController = viewController
     
-    if superview == nil {
-      UIApplication.shared.keyWindow?.addSubview(self)
-      bounds = superview!.bounds
-      frame.origin.y = superview!.bounds.height
+    if beforePresenting {
+      beforePresenting = false
+      bounds = UIScreen.main.bounds
+      frame.origin.y = UIScreen.main.bounds.height
       UIView.animate(withDuration: animationDuration, delay: 0, options: .curveEaseOut, animations: {
         self.frame.origin.y = 0
       }, completion: nil)
+      makeKeyAndVisible()
     } else if makeLargerIfNeeded {
       applyLarge()
     }
@@ -30,25 +32,34 @@ final class PictureInPictureView: ContainerView {
     if animation {
       if isLargeState {
         UIView.animate(withDuration: animationDuration, animations: {
-          self.frame.origin.y = self.superview!.bounds.height
+          self.frame.origin.y = UIScreen.main.bounds.height
         }, completion: { _ in
-          super.dismiss()
-          self.removeFromSuperview()
+          self.disposeHandler()
           NotificationCenter.default.post(name: .PictureInPictureDismissed, object: nil)
         })
       } else {
         UIView.animate(withDuration: animationDuration, animations: {
           self.alpha = 0
         }, completion: { _ in
-          super.dismiss()
-          self.removeFromSuperview()
+          self.disposeHandler()
           NotificationCenter.default.post(name: .PictureInPictureDismissed, object: nil)
         })
       }
     } else {
-      super.dismiss()
-      self.removeFromSuperview()
+      self.disposeHandler()
       NotificationCenter.default.post(name: .PictureInPictureDismissed, object: nil)
+    }
+  }
+  
+  var shadowEnabled = false {
+    didSet {
+      if shadowEnabled {
+        layer.shadowColor = UIColor.black.cgColor
+        layer.shadowRadius = 5
+        layer.shadowOpacity = 0.5
+      } else {
+        layer.shadowColor = UIColor.clear.cgColor
+      }
     }
   }
   
@@ -77,6 +88,7 @@ final class PictureInPictureView: ContainerView {
     tapGestureRecognizer.addTarget(self, action: #selector(tapped))
     addGestureRecognizer(panGestureRecognizer)
     addGestureRecognizer(tapGestureRecognizer)
+    tapGestureRecognizer.isEnabled = false
   }
   
   @objc private func tapped() {
@@ -108,7 +120,7 @@ final class PictureInPictureView: ContainerView {
     switch sender.state {
     case .began:
       isPanning = true
-      let velocity = sender.velocity(in: superview!)
+      let velocity = sender.velocity(in: mainWindow)
       isPanVectorVertical = abs(velocity.x) < abs(velocity.y)
       panChanged(sender)
     case .changed:
@@ -121,21 +133,26 @@ final class PictureInPictureView: ContainerView {
     }
   }
   
-  private var isLargeState = true {
+  private(set) var isLargeState = true {
     didSet {
-      viewController?.view.isUserInteractionEnabled = isLargeState
-      viewController?.setNeedsUpdateConstraints()
+      rootViewController?.view.isUserInteractionEnabled = isLargeState
+      tapGestureRecognizer.isEnabled = !isLargeState
+      rootViewController?.setNeedsUpdateConstraints()
     }
   }
   
   private var isPanVectorVertical = true
   private var isPanning = false
   
+  private var mainWindow: UIWindow {
+    return UIApplication.shared.delegate!.window!!
+  }
+  
   private func panChanged(_ sender: UIPanGestureRecognizer) {
     if isLargeState || !PictureInPicture.movable {
       if isPanVectorVertical || isLargeState {
-        let translation = sender.translation(in: superview!).y
-        let location = sender.location(in: superview!).y
+        let translation = sender.translation(in: mainWindow).y
+        let location = sender.location(in: mainWindow).y
         let beginningLocation = location - translation
         
         let rate: CGFloat
@@ -148,21 +165,21 @@ final class PictureInPictureView: ContainerView {
         
         applyTransform(rate: rate)
       } else {
-        applyTransform(translate: CGPoint(x: sender.translation(in: superview!).x, y: 0))
+        applyTransform(translate: CGPoint(x: sender.translation(in: mainWindow).x, y: 0))
       }
     } else {
-      applyTransform(corner: currentCorner, translate: sender.translation(in: superview!))
+      applyTransform(corner: currentCorner, translate: sender.translation(in: mainWindow))
     }
   }
   
   private func panEnded(_ sender: UIPanGestureRecognizer) {
     if isLargeState || !PictureInPicture.movable {
       if isPanVectorVertical || isLargeState {
-        let translation = sender.translation(in: superview!).y
-        let location = sender.location(in: superview!).y
+        let translation = sender.translation(in: mainWindow).y
+        let location = sender.location(in: mainWindow).y
         let beginningLocation = location - translation
         let endLocation = isLargeState ? centerWhenSmall : centerWhenLarge
-        let velocity = sender.velocity(in: superview!).y
+        let velocity = sender.velocity(in: mainWindow).y
         
         let isApply = (location + velocity * 0.1 - beginningLocation) / (endLocation - beginningLocation) > 0.5
         let isToSmall = isLargeState == isApply
@@ -190,17 +207,17 @@ final class PictureInPictureView: ContainerView {
           isLargeState = true
         }
       } else {
-        let location = sender.location(in: superview!).x
-        let velocity = sender.velocity(in: superview!).x
+        let location = sender.location(in: mainWindow).x
+        let velocity = sender.velocity(in: mainWindow).x
         let locationInFeature = CGPoint(x: location + velocity * 0.2, y: 0)
         
-        if superview!.bounds.contains(locationInFeature) {
+        if UIScreen.main.bounds.contains(locationInFeature) {
           UIView.animate(withDuration: animationDuration, animations: {
             self.applyTransform()
           })
         } else {
           disposeHandler()
-          let translate = sender.translation(in: superview!).x
+          let translate = sender.translation(in: mainWindow).x
           UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveLinear, animations: {
             let translateInFeature = CGPoint(x: translate + velocity, y: 0)
             self.applyTransform(translate: translateInFeature)
@@ -210,14 +227,14 @@ final class PictureInPictureView: ContainerView {
         }
       }
     } else {
-      let location = sender.location(in: superview!)
-      let velocity = sender.velocity(in: superview!)
+      let location = sender.location(in: mainWindow)
+      let velocity = sender.velocity(in: mainWindow)
       let locationInFeature = CGPoint(x: location.x + velocity.x * 0.05, y: location.y + velocity.y * 0.05)
       
-      if superview!.bounds.contains(locationInFeature) {
+      if UIScreen.main.bounds.contains(locationInFeature) {
         let oldCorner = currentCorner
-        let v: PictureInPicture.VerticalEdge = locationInFeature.y < superview!.bounds.height / 2 ? .top : .bottom
-        let h: PictureInPicture.HorizontalEdge = locationInFeature.x < superview!.bounds.width / 2 ? .left : .right
+        let v: PictureInPicture.VerticalEdge = locationInFeature.y < UIScreen.main.bounds.height / 2 ? .top : .bottom
+        let h: PictureInPicture.HorizontalEdge = locationInFeature.x < UIScreen.main.bounds.width / 2 ? .left : .right
         currentCorner = PictureInPicture.Corner(v, h)
         let newCorner = currentCorner
         UIView.animate(withDuration: animationDuration, animations: {
@@ -230,7 +247,7 @@ final class PictureInPictureView: ContainerView {
         })
       } else {
         disposeHandler()
-        let translate = sender.translation(in: superview!)
+        let translate = sender.translation(in: mainWindow)
         UIView.animate(withDuration: 0.1, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0.1, options: .curveLinear, animations: {
           let translateInFeature = CGPoint(x: translate.x + velocity.x * 0.1, y: translate.y + velocity.y * 0.1)
           self.applyTransform(corner: self.currentCorner, translate: translateInFeature)
@@ -242,45 +259,45 @@ final class PictureInPictureView: ContainerView {
   }
   
   private var centerEdgeDistance: CGFloat { return 0.5 - PictureInPicture.scale / 2 }
-  private var centerWhenSmall: CGFloat { return superview!.bounds.height - bounds.height * PictureInPicture.scale / 2 - PictureInPicture.margin }
-  private var centerWhenLarge: CGFloat { return superview!.bounds.height / 2 }
+  private var centerWhenSmall: CGFloat { return UIScreen.main.bounds.height - bounds.height * PictureInPicture.scale / 2 - PictureInPicture.margin }
+  private var centerWhenLarge: CGFloat { return UIScreen.main.bounds.height / 2 }
   
   private func applyTransform(rate: CGFloat = 1, corner: PictureInPicture.Corner = PictureInPicture.defaultCorner, translate: CGPoint = .zero) {
     let x: CGFloat
     let y: CGFloat
     switch corner.horizontalEdge {
-    case .left:  x = rate * (-superview!.bounds.width * centerEdgeDistance + PictureInPicture.margin)
-    case .right: x = rate * (superview!.bounds.width * centerEdgeDistance - PictureInPicture.margin)
+    case .left:  x = rate * (-UIScreen.main.bounds.width * centerEdgeDistance + PictureInPicture.margin)
+    case .right: x = rate * (UIScreen.main.bounds.width * centerEdgeDistance - PictureInPicture.margin)
     }
     switch corner.verticalEdge {
-    case .top:    y = rate * (-superview!.bounds.height * centerEdgeDistance + PictureInPicture.margin + UIApplication.shared.statusBarFrame.height)
-    case .bottom: y = rate * (superview!.bounds.height * centerEdgeDistance - PictureInPicture.margin)
+    case .top:    y = rate * (-UIScreen.main.bounds.height * centerEdgeDistance + PictureInPicture.margin + UIApplication.shared.statusBarFrame.height)
+    case .bottom: y = rate * (UIScreen.main.bounds.height * centerEdgeDistance - PictureInPicture.margin)
     }
-    center = CGPoint(x: x + translate.x + superview!.bounds.width / 2, y: y + translate.y + superview!.bounds.height / 2)
+    center = CGPoint(x: x + translate.x + UIScreen.main.bounds.width / 2, y: y + translate.y + UIScreen.main.bounds.height / 2)
     let applyScale = 1 - (1 - PictureInPicture.scale) * rate
     transform = CGAffineTransform(scaleX: applyScale, y: applyScale)
   }
   
+  override var transform: CGAffineTransform {
+    get { return super.transform }
+    set {
+      let oldValue = super.transform
+      super.transform = newValue
+      if oldValue.isIdentity != newValue.isIdentity {
+        bounds.size.height = newValue.isIdentity ? UIScreen.main.bounds.height : UIScreen.main.bounds.height - 0.00001
+        UIApplication.shared.setNeedsStatusBarAppearanceUpdate()
+      }
+    }
+  }
+  
   private func prepareNotifications() {
-    NotificationCenter.default.addObserver(self, selector: #selector(bringToFront), name: .PictureInPictureUIWindowDidAddSubview, object: nil)
-    NotificationCenter.default.addObserver(self, selector: #selector(addSubviewOnKeyWindow), name: .UIWindowDidBecomeKey, object: nil)
     NotificationCenter.default.addObserver(self, selector: #selector(orientationDidChange), name: .UIDeviceOrientationDidChange, object: nil)
     NotificationCenter.default.addObserver(self, selector: #selector(willChangeStatusBarFrame(_:)), name: .UIApplicationWillChangeStatusBarFrame, object: nil)
   }
   
-  @objc private func bringToFront() {
-    superview?.bringSubview(toFront: self)
-  }
-  
-  @objc private func addSubviewOnKeyWindow() {
-    removeFromSuperview()
-    UIApplication.shared.keyWindow?.addSubview(self)
-    bounds = superview!.bounds
-  }
-  
   @objc private func orientationDidChange() {
     DispatchQueue.main.async {
-      self.bounds = self.superview!.bounds
+      self.bounds = UIScreen.main.bounds
       self.applyTransform(rate: self.isLargeState ? 0 : 1, corner: self.currentCorner, translate: .zero)
     }
   }
