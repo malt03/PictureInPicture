@@ -100,12 +100,14 @@ final class PictureInPictureView: ContainerView {
   @objc private func panned(_ sender: UIPanGestureRecognizer) {
     switch sender.state {
     case .began:
+      isPanning = true
       let velocity = sender.velocity(in: superview!)
       isPanVectorVertical = abs(velocity.x) < abs(velocity.y)
       panChanged(sender)
     case .changed:
       panChanged(sender)
     case .cancelled, .ended:
+      isPanning = false
       panEnded(sender)
     default:
       break
@@ -120,6 +122,7 @@ final class PictureInPictureView: ContainerView {
   }
   
   private var isPanVectorVertical = true
+  private var isPanning = false
   
   private func panChanged(_ sender: UIPanGestureRecognizer) {
     if isLargeState || !PictureInPicture.movable {
@@ -232,7 +235,7 @@ final class PictureInPictureView: ContainerView {
     case .right: x = rate * (superview!.bounds.width * centerEdgeDistance - PictureInPicture.margin)
     }
     switch corner.verticalEdge {
-    case .top:    y = rate * (-superview!.bounds.height * centerEdgeDistance + PictureInPicture.margin)
+    case .top:    y = rate * (-superview!.bounds.height * centerEdgeDistance + PictureInPicture.margin + UIApplication.shared.statusBarFrame.height)
     case .bottom: y = rate * (superview!.bounds.height * centerEdgeDistance - PictureInPicture.margin)
     }
     center = CGPoint(x: x + translate.x + superview!.bounds.width / 2, y: y + translate.y + superview!.bounds.height / 2)
@@ -244,6 +247,7 @@ final class PictureInPictureView: ContainerView {
     NotificationCenter.default.addObserver(self, selector: #selector(bringToFront), name: .PictureInPictureUIWindowDidAddSubview, object: nil)
     NotificationCenter.default.addObserver(self, selector: #selector(addSubviewOnKeyWindow), name: .UIWindowDidBecomeKey, object: nil)
     NotificationCenter.default.addObserver(self, selector: #selector(orientationDidChange), name: .UIDeviceOrientationDidChange, object: nil)
+    NotificationCenter.default.addObserver(self, selector: #selector(willChangeStatusBarFrame(_:)), name: .UIApplicationWillChangeStatusBarFrame, object: nil)
   }
   
   @objc private func bringToFront() {
@@ -260,6 +264,13 @@ final class PictureInPictureView: ContainerView {
     DispatchQueue.main.async {
       self.bounds = self.superview!.bounds
       self.applyTransform(rate: self.isLargeState ? 0 : 1, corner: self.currentCorner, translate: .zero)
+    }
+  }
+  
+  @objc private func willChangeStatusBarFrame(_ notification: Notification) {
+    if currentCorner.verticalEdge == .bottom || isLargeState || isPanning { return }
+    UIView.animate(withDuration: 0.35) {
+      self.applyTransform(corner: self.currentCorner)
     }
   }
 }
