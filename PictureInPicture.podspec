@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'PictureInPicture'
-  s.version          = '0.1.6'
+  s.version          = '0.1.7'
   s.summary          = 'Picture in Picture.'
 
   s.description      = <<-DESC
