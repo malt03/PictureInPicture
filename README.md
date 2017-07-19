@@ -12,9 +12,7 @@
 
 To run the example project, clone the repo, and run `pod install` from the Example directory first.
 
-## Usage
-
-### Configure
+## Configure
 If you want to change from default value.
 
 Default: PictureInPicture.configure(movable: true, scale: 0.2, margin: 8, defaultEdge: .right)
@@ -23,30 +21,23 @@ Default: PictureInPicture.configure(movable: true, scale: 0.2, margin: 8, defaul
 PictureInPicture.configure(movable: true, scale: 0.3, margin: 10, defaultEdge: .left)
 ```
 
-### Present
+## Usage
 ```swift
-PictureInPicture.shared.present(with: viewController)
+PictureInPicture.shared.present(with: viewController) // Present
+PictureInPicture.shared.dismiss()                     // Dismiss
+PictureInPicture.shared.makeSmaller()                 // Make Smaller
+PictureInPicture.shared.makeLarger()                  // Make Larger
+PictureInPicture.shared.presentingViewController      // Get presenting ViewController
 ```
 
-### Dismiss
-```swift
-PictureInPicture.shared.dismiss()
-```
+## Notifications
+- PictureInPictureMadeSmaller
+- PictureInPictureMadeLarger
+- PictureInPictureMoved
+  - PictureInPictureOldCornerUserInfoKey # PictureInPicture.Corner
+  - PictureInPictureNewCornerUserInfoKey # PictureInPicture.Corner
+- PictureInPictureDismissed
 
-### Make Smaller
-```swift
-PictureInPicture.shared.makeSmaller()
-```
-
-### Make Larger
-```swift
-PictureInPicture.shared.makeLarger()
-```
-
-### Get presenting ViewController
-```swift
-PictureInPicture.shared.presentingViewController
-```
 
 ## Installation
 
