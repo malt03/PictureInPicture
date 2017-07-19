@@ -25,8 +25,15 @@ public final class PictureInPicture {
     let radius: CGFloat
     let opacity: Float
     
+    public init(color: UIColor = .black, offset: CGSize = .zero, radius: CGFloat = 5, opacity: Float = 0.5) {
+      self.color = color
+      self.offset = offset
+      self.radius = radius
+      self.opacity = opacity
+    }
+    
     public static var `default`: ShadowConfig {
-      return ShadowConfig(color: .black, offset: .zero, radius: 5, opacity: 0.5)
+      return ShadowConfig()
     }
   }
   
