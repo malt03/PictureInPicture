@@ -8,6 +8,16 @@
 
 import Foundation
 
+extension Notification.Name {
+  public static let PictureInPictureMadeSmaller = Notification.Name(rawValue: "PictureInPictureMadeSmaller")
+  public static let PictureInPictureMadeLarger = Notification.Name(rawValue: "PictureInPictureMadeLarger")
+  public static let PictureInPictureMoved = Notification.Name(rawValue: "PictureInPictureMoved")
+  public static let PictureInPictureDismissed = Notification.Name(rawValue: "PictureInPictureDismissed")
+}
+
+public let PictureInPictureOldCornerUserInfoKey = "PictureInPictureOldCornerUserInfoKey"
+public let PictureInPictureNewCornerUserInfoKey = "PictureInPictureNewCornerUserInfoKey"
+
 public final class PictureInPicture {
   public static func configure(movable: Bool = true, scale: CGFloat = 0.2, margin: CGFloat = 8, defaultEdge: HorizontalEdge = .right) {
     self.movable = movable
@@ -49,6 +59,10 @@ public final class PictureInPicture {
     return view?.viewController
   }
   
+  public var currentCorner: Corner {
+    return view?.currentCorner ?? PictureInPicture.defaultCorner
+  }
+  
   private init() {}
   
   private var viewCreateIfNeeded: PictureInPictureView {
@@ -66,32 +80,32 @@ public final class PictureInPicture {
     case right
   }
   
-  enum VerticalEdge {
+  public enum VerticalEdge {
     case top
     case bottom
   }
   
-  enum Corner {
+  public enum Corner {
     case topLeft
     case topRight
     case bottomLeft
     case bottomRight
     
-    var verticalEdge: VerticalEdge {
+    public var verticalEdge: VerticalEdge {
       switch self {
       case .topLeft, .topRight: return .top
       case .bottomLeft, .bottomRight: return .bottom
       }
     }
     
-    var horizontalEdge: HorizontalEdge {
+    public var horizontalEdge: HorizontalEdge {
       switch self {
       case .topLeft, .bottomLeft: return .left
       case .topRight, .bottomRight: return .right
       }
     }
     
-    init(_ verticalEdge: VerticalEdge, _ horizontalEdge: HorizontalEdge) {
+    public init(_ verticalEdge: VerticalEdge, _ horizontalEdge: HorizontalEdge) {
       switch verticalEdge {
       case .top:
         switch horizontalEdge {

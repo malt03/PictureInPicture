@@ -34,6 +34,7 @@ final class PictureInPictureView: ContainerView {
         }, completion: { _ in
           super.dismiss()
           self.removeFromSuperview()
+          NotificationCenter.default.post(name: .PictureInPictureDismissed, object: nil)
         })
       } else {
         UIView.animate(withDuration: animationDuration, animations: {
@@ -41,11 +42,13 @@ final class PictureInPictureView: ContainerView {
         }, completion: { _ in
           super.dismiss()
           self.removeFromSuperview()
+          NotificationCenter.default.post(name: .PictureInPictureDismissed, object: nil)
         })
       }
     } else {
       super.dismiss()
       self.removeFromSuperview()
+      NotificationCenter.default.post(name: .PictureInPictureDismissed, object: nil)
     }
   }
   
@@ -67,7 +70,7 @@ final class PictureInPictureView: ContainerView {
   
   private let panGestureRecognizer = UIPanGestureRecognizer()
   private let tapGestureRecognizer = UITapGestureRecognizer()
-  private var currentCorner = PictureInPicture.defaultCorner
+  private(set) var currentCorner = PictureInPicture.defaultCorner
   
   private func addGestureRecognizers() {
     panGestureRecognizer.addTarget(self, action: #selector(panned(_:)))
@@ -85,7 +88,9 @@ final class PictureInPictureView: ContainerView {
     currentCorner = PictureInPicture.defaultCorner
     UIView.animate(withDuration: animationDuration, delay: 0, options: .curveEaseOut, animations: {
       self.applyTransform(rate: 0)
-    }, completion: nil)
+    }, completion: { _ in
+      NotificationCenter.default.post(name: .PictureInPictureMadeLarger, object: nil)
+    })
     isLargeState = true
   }
   
@@ -93,7 +98,9 @@ final class PictureInPictureView: ContainerView {
     if !isLargeState { return }
     UIView.animate(withDuration: animationDuration, delay: 0, options: .curveEaseOut, animations: {
       self.applyTransform(rate: 1)
-    }, completion: nil)
+    }, completion: { _ in
+      NotificationCenter.default.post(name: .PictureInPictureMadeSmaller, object: nil)
+    })
     isLargeState = false
   }
   
@@ -170,12 +177,16 @@ final class PictureInPictureView: ContainerView {
         if isToSmall {
           UIView.animate(withDuration: animationDuration, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: v, options: .curveLinear, animations: {
             self.applyTransform(rate: 1)
-          }, completion: nil)
+          }, completion: { _ in
+            NotificationCenter.default.post(name: .PictureInPictureMadeSmaller, object: nil)
+          })
           isLargeState = false
         } else {
           UIView.animate(withDuration: animationDuration, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: v, options: .curveLinear, animations: {
             self.applyTransform(rate: 0)
-          }, completion: nil)
+          }, completion: { _ in
+            NotificationCenter.default.post(name: .PictureInPictureMadeLarger, object: nil)
+          })
           isLargeState = true
         }
       } else {
@@ -204,17 +215,24 @@ final class PictureInPictureView: ContainerView {
       let locationInFeature = CGPoint(x: location.x + velocity.x * 0.05, y: location.y + velocity.y * 0.05)
       
       if superview!.bounds.contains(locationInFeature) {
+        let oldCorner = currentCorner
         let v: PictureInPicture.VerticalEdge = locationInFeature.y < superview!.bounds.height / 2 ? .top : .bottom
         let h: PictureInPicture.HorizontalEdge = locationInFeature.x < superview!.bounds.width / 2 ? .left : .right
         currentCorner = PictureInPicture.Corner(v, h)
+        let newCorner = currentCorner
         UIView.animate(withDuration: animationDuration, animations: {
           self.applyTransform(corner: self.currentCorner)
+        }, completion: { _ in
+          NotificationCenter.default.post(name: .PictureInPictureMoved, object: nil, userInfo: [
+            PictureInPictureOldCornerUserInfoKey: oldCorner,
+            PictureInPictureNewCornerUserInfoKey: newCorner,
+          ])
         })
       } else {
         disposeHandler()
         let translate = sender.translation(in: superview!)
-        UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveLinear, animations: {
-          let translateInFeature = CGPoint(x: translate.x + velocity.x, y: translate.y + velocity.y)
+        UIView.animate(withDuration: 0.1, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0.1, options: .curveLinear, animations: {
+          let translateInFeature = CGPoint(x: translate.x + velocity.x * 0.1, y: translate.y + velocity.y * 0.1)
           self.applyTransform(corner: self.currentCorner, translate: translateInFeature)
         }, completion: { _ in
           self.dismiss(animation: false)

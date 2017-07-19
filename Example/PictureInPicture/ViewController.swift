@@ -37,4 +37,43 @@ final class ViewController: UIViewController {
   @IBAction func changeRootViewController() {
     UIApplication.shared.keyWindow?.rootViewController = UIStoryboard(name: "Main", bundle: .main).instantiateInitialViewController()
   }
+
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    observeNotifications()
+  }
+  
+  override func viewWillDisappear(_ animated: Bool) {
+    super.viewWillDisappear(animated)
+    NotificationCenter.default.removeObserver(self)
+  }
+}
+
+// Notifications
+extension ViewController {
+  fileprivate func observeNotifications() {
+    NotificationCenter.default.addObserver(self, selector: #selector(pictureInPictureMadeSmaller), name: .PictureInPictureMadeSmaller, object: nil)
+    NotificationCenter.default.addObserver(self, selector: #selector(pictureInPictureMadeLarger), name: .PictureInPictureMadeLarger, object: nil)
+    NotificationCenter.default.addObserver(self, selector: #selector(pictureInPictureMoved(_:)), name: .PictureInPictureMoved, object: nil)
+    NotificationCenter.default.addObserver(self, selector: #selector(pictureInPictureDismissed), name: .PictureInPictureDismissed, object: nil)
+  }
+  
+  @objc private func pictureInPictureMadeSmaller() {
+    print("pictureInPictureMadeSmaller")
+  }
+  
+  @objc private func pictureInPictureMadeLarger() {
+    print("pictureInPictureMadeLarger")
+  }
+  
+  @objc private func pictureInPictureMoved(_ notification: Notification) {
+    let userInfo = notification.userInfo!
+    let oldCorner = userInfo[PictureInPictureOldCornerUserInfoKey] as! PictureInPicture.Corner
+    let newCorner = userInfo[PictureInPictureNewCornerUserInfoKey] as! PictureInPicture.Corner
+    print("pictureInPictureMoved(old: \(oldCorner), new: \(newCorner))")
+  }
+  
+  @objc private func pictureInPictureDismissed() {
+    print("pictureInPictureDismissed")
+  }
 }
