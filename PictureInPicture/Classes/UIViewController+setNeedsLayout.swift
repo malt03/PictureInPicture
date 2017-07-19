@@ -9,8 +9,8 @@
 import UIKit
 
 extension UIViewController {
-  func setNeedsLayout() {
-    childViewControllers.forEach { $0.setNeedsLayout() }
-    view.setNeedsLayout()
+  func setNeedsUpdateConstraints() {
+    childViewControllers.forEach { $0.setNeedsUpdateConstraints() }
+    view.setNeedsUpdateConstraints()
   }
 }

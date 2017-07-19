@@ -124,7 +124,7 @@ final class PictureInPictureView: ContainerView {
   private var isLargeState = true {
     didSet {
       viewController?.view.isUserInteractionEnabled = isLargeState
-      viewController?.setNeedsLayout()
+      viewController?.setNeedsUpdateConstraints()
     }
   }
   
