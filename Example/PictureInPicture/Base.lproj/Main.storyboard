@@ -21,20 +21,32 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lW7-lE-GDL">
-                                <rect key="frame" x="160.5" y="318" width="53" height="30"/>
-                                <state key="normal" title="Present"/>
-                                <connections>
-                                    <action selector="present" destination="vXZ-lx-hvc" eventType="touchUpInside" id="faQ-Lv-YWs"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="M8L-Oh-iIP">
-                                <rect key="frame" x="160" y="364" width="54" height="30"/>
-                                <state key="normal" title="Dismiss"/>
-                                <connections>
-                                    <action selector="dismiss" destination="vXZ-lx-hvc" eventType="touchUpInside" id="wbd-nC-mkk"/>
-                                </connections>
-                            </button>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="hvP-x2-UNu">
+                                <rect key="frame" x="84.5" y="280" width="205" height="106"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lW7-lE-GDL">
+                                        <rect key="frame" x="0.0" y="0.0" width="205" height="30"/>
+                                        <state key="normal" title="Present"/>
+                                        <connections>
+                                            <action selector="present" destination="vXZ-lx-hvc" eventType="touchUpInside" id="faQ-Lv-YWs"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="F06-iE-tjx">
+                                        <rect key="frame" x="0.0" y="38" width="205" height="30"/>
+                                        <state key="normal" title="Present without making larger"/>
+                                        <connections>
+                                            <action selector="presentWithoutMakingLarger" destination="vXZ-lx-hvc" eventType="touchUpInside" id="rMQ-Fz-C0F"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="M8L-Oh-iIP">
+                                        <rect key="frame" x="0.0" y="76" width="205" height="30"/>
+                                        <state key="normal" title="Dismiss"/>
+                                        <connections>
+                                            <action selector="dismiss" destination="vXZ-lx-hvc" eventType="touchUpInside" id="wbd-nC-mkk"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                            </stackView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KRK-hv-fxe">
                                 <rect key="frame" x="133" y="597" width="108" height="30"/>
                                 <state key="normal" title="ChangeWindow"/>
@@ -50,7 +62,7 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0Lt-hB-Stb">
-                                <rect key="frame" x="16" y="28" width="42" height="21"/>
+                                <rect key="frame" x="16" y="28" width="42" height="20.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -58,16 +70,14 @@
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="lW7-lE-GDL" firstAttribute="centerX" secondItem="kh9-bI-dsS" secondAttribute="centerX" id="0j8-YK-PKy"/>
                             <constraint firstItem="KRK-hv-fxe" firstAttribute="centerX" secondItem="kh9-bI-dsS" secondAttribute="centerX" id="2GV-Ih-T9t"/>
                             <constraint firstItem="0Lt-hB-Stb" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" constant="8" id="9jT-Dm-ACg"/>
                             <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="KRK-hv-fxe" secondAttribute="bottom" constant="40" id="DHq-df-ov5"/>
-                            <constraint firstItem="lW7-lE-GDL" firstAttribute="centerY" secondItem="kh9-bI-dsS" secondAttribute="centerY" id="DhM-w0-jgR"/>
+                            <constraint firstItem="hvP-x2-UNu" firstAttribute="centerY" secondItem="kh9-bI-dsS" secondAttribute="centerY" id="Tav-3h-c06"/>
                             <constraint firstItem="KRK-hv-fxe" firstAttribute="top" secondItem="BTy-2h-n1i" secondAttribute="bottom" constant="16" id="YtZ-6A-YMl"/>
                             <constraint firstItem="BTy-2h-n1i" firstAttribute="centerX" secondItem="kh9-bI-dsS" secondAttribute="centerX" id="cqd-tF-ydq"/>
+                            <constraint firstItem="hvP-x2-UNu" firstAttribute="centerX" secondItem="kh9-bI-dsS" secondAttribute="centerX" id="dge-NP-faO"/>
                             <constraint firstItem="0Lt-hB-Stb" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" constant="16" id="kf4-vo-Yjs"/>
-                            <constraint firstItem="M8L-Oh-iIP" firstAttribute="centerX" secondItem="kh9-bI-dsS" secondAttribute="centerX" id="xP0-z8-gtc"/>
-                            <constraint firstItem="M8L-Oh-iIP" firstAttribute="top" secondItem="lW7-lE-GDL" secondAttribute="bottom" constant="16" id="zJK-ZD-9Wk"/>
                         </constraints>
                     </view>
                     <connections>
@@ -76,6 +86,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="62" y="37"/>
         </scene>
         <!--New Window View Controller-->
         <scene sceneID="ngZ-Bn-ELn">
@@ -171,11 +182,19 @@
                                     <action selector="makeSmaller" destination="BCA-qK-Sou" eventType="touchUpInside" id="D0M-aY-cbT"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xff-QP-kpp">
+                                <rect key="frame" x="16" y="28" width="42" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" red="0.0" green="0.25098040700000002" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
+                            <constraint firstItem="xff-QP-kpp" firstAttribute="top" secondItem="dia-Wl-Lqh" secondAttribute="bottom" constant="8" id="1RZ-eH-qlA"/>
                             <constraint firstItem="DS7-QS-hmY" firstAttribute="leading" secondItem="pWS-7m-UdF" secondAttribute="leading" id="4sz-8A-SmM"/>
                             <constraint firstItem="I1O-qp-xfa" firstAttribute="centerX" secondItem="pWS-7m-UdF" secondAttribute="centerX" id="51U-pH-nl5"/>
+                            <constraint firstItem="xff-QP-kpp" firstAttribute="leading" secondItem="pWS-7m-UdF" secondAttribute="leading" constant="16" id="9q8-FJ-zVP"/>
                             <constraint firstAttribute="trailing" secondItem="9YB-ze-Rhj" secondAttribute="trailing" constant="16" id="AwG-h0-KrG"/>
                             <constraint firstItem="I1O-qp-xfa" firstAttribute="centerY" secondItem="pWS-7m-UdF" secondAttribute="centerY" id="FSe-uC-v62"/>
                             <constraint firstItem="9YB-ze-Rhj" firstAttribute="top" secondItem="ha6-Qg-BUU" secondAttribute="bottom" constant="8" id="JFd-fx-2SI"/>
@@ -185,6 +204,9 @@
                             <constraint firstAttribute="bottom" secondItem="DS7-QS-hmY" secondAttribute="bottom" id="zyv-Ul-WOT"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="instanceNumberLabel" destination="xff-QP-kpp" id="Off-X2-9oy"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rix-1P-Iaf" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

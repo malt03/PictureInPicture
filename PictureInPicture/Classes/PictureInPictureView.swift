@@ -11,7 +11,7 @@ import UIKit
 final class PictureInPictureView: ContainerView {
   private var animationDuration: TimeInterval { return 0.2 }
   
-  override func present(with viewController: UIViewController) {
+  func present(with viewController: UIViewController, makeLargerIfNeeded: Bool) {
     super.present(with: viewController)
     
     if superview == nil {
@@ -21,7 +21,7 @@ final class PictureInPictureView: ContainerView {
       UIView.animate(withDuration: animationDuration, delay: 0, options: .curveEaseOut, animations: {
         self.frame.origin.y = 0
       }, completion: nil)
-    } else {
+    } else if makeLargerIfNeeded {
       applyLarge()
     }
   }

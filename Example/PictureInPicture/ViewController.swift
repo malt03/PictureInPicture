@@ -22,6 +22,10 @@ final class ViewController: UIViewController {
     PictureInPicture.shared.present(with: UIStoryboard(name: "Main", bundle: .main).instantiateViewController(withIdentifier: "PiP"))
   }
   
+  @IBAction func presentWithoutMakingLarger() {
+    PictureInPicture.shared.present(with: UIStoryboard(name: "Main", bundle: .main).instantiateViewController(withIdentifier: "PiP"), makeLargerIfNeeded: false)
+  }
+
   @IBAction func dismiss() {
     PictureInPicture.shared.dismiss(animation: true)
   }

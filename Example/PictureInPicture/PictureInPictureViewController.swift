@@ -10,6 +10,14 @@ import UIKit
 import PictureInPicture
 
 final class PictureInPictureViewController: UIViewController, UITableViewDataSource {
+  private static var instanceNumber = 0
+  @IBOutlet weak var instanceNumberLabel: UILabel! {
+    didSet {
+      instanceNumberLabel.text = "\(PictureInPictureViewController.instanceNumber)"
+      PictureInPictureViewController.instanceNumber += 1
+    }
+  }
+  
   @IBAction private func dismiss() {
     PictureInPicture.shared.dismiss(animation: true)
   }
