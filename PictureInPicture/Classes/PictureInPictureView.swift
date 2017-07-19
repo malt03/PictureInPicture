@@ -56,8 +56,6 @@ final class PictureInPictureView: ContainerView {
 
     super.init(frame: UIScreen.main.bounds)
 
-    backgroundColor = UIColor(white: 0, alpha: 0.5)
-    
     prepareNotifications()
     addGestureRecognizers()
   }
@@ -117,9 +115,7 @@ final class PictureInPictureView: ContainerView {
   private var isLargeState = true {
     didSet {
       viewController?.view.isUserInteractionEnabled = isLargeState
-      
-      removeFromSuperview()
-      UIApplication.shared.keyWindow?.addSubview(self)
+      viewController?.view.setNeedsLayout()
     }
   }
   
