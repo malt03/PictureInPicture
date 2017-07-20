@@ -9,9 +9,10 @@
 /* Begin PBXBuildFile section */
 		ED6CAC3F1F1EFBC400CA3BE2 /* PictureInPicture.h in Headers */ = {isa = PBXBuildFile; fileRef = ED6CAC3D1F1EFBC400CA3BE2 /* PictureInPicture.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		ED6CAC4A1F1EFBED00CA3BE2 /* PictureInPicture.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED6CAC461F1EFBED00CA3BE2 /* PictureInPicture.swift */; };
-		ED6CAC4B1F1EFBED00CA3BE2 /* PictureInPictureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED6CAC471F1EFBED00CA3BE2 /* PictureInPictureView.swift */; };
 		ED6CAC7D1F1F45C500CA3BE2 /* UIViewController+setNeedsUpdateConstraints.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED6CAC7C1F1F45C500CA3BE2 /* UIViewController+setNeedsUpdateConstraints.swift */; };
 		ED6CACB91F1FCF9500CA3BE2 /* UIApplication+setNeedsStatusBarAppearanceUpdate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED6CACB81F1FCF9500CA3BE2 /* UIApplication+setNeedsStatusBarAppearanceUpdate.swift */; };
+		ED6CACBF1F2080B500CA3BE2 /* PictureInPictureWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED6CACBE1F2080B500CA3BE2 /* PictureInPictureWindow.swift */; };
+		ED6CACC11F2080BB00CA3BE2 /* FeedbackGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED6CACC01F2080BB00CA3BE2 /* FeedbackGenerator.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -19,9 +20,10 @@
 		ED6CAC3D1F1EFBC400CA3BE2 /* PictureInPicture.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PictureInPicture.h; sourceTree = "<group>"; };
 		ED6CAC3E1F1EFBC400CA3BE2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		ED6CAC461F1EFBED00CA3BE2 /* PictureInPicture.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PictureInPicture.swift; path = ../../../PictureInPicture/Classes/PictureInPicture.swift; sourceTree = "<group>"; };
-		ED6CAC471F1EFBED00CA3BE2 /* PictureInPictureView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PictureInPictureView.swift; path = ../../../PictureInPicture/Classes/PictureInPictureView.swift; sourceTree = "<group>"; };
 		ED6CAC7C1F1F45C500CA3BE2 /* UIViewController+setNeedsUpdateConstraints.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIViewController+setNeedsUpdateConstraints.swift"; path = "../../../PictureInPicture/Classes/UIViewController+setNeedsUpdateConstraints.swift"; sourceTree = "<group>"; };
 		ED6CACB81F1FCF9500CA3BE2 /* UIApplication+setNeedsStatusBarAppearanceUpdate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIApplication+setNeedsStatusBarAppearanceUpdate.swift"; path = "../../../PictureInPicture/Classes/UIApplication+setNeedsStatusBarAppearanceUpdate.swift"; sourceTree = "<group>"; };
+		ED6CACBE1F2080B500CA3BE2 /* PictureInPictureWindow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PictureInPictureWindow.swift; path = ../../../PictureInPicture/Classes/PictureInPictureWindow.swift; sourceTree = "<group>"; };
+		ED6CACC01F2080BB00CA3BE2 /* FeedbackGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedbackGenerator.swift; path = ../../../PictureInPicture/Classes/FeedbackGenerator.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,9 +58,10 @@
 			children = (
 				ED6CAC3D1F1EFBC400CA3BE2 /* PictureInPicture.h */,
 				ED6CAC461F1EFBED00CA3BE2 /* PictureInPicture.swift */,
-				ED6CAC471F1EFBED00CA3BE2 /* PictureInPictureView.swift */,
+				ED6CACBE1F2080B500CA3BE2 /* PictureInPictureWindow.swift */,
 				ED6CAC7C1F1F45C500CA3BE2 /* UIViewController+setNeedsUpdateConstraints.swift */,
 				ED6CACB81F1FCF9500CA3BE2 /* UIApplication+setNeedsStatusBarAppearanceUpdate.swift */,
+				ED6CACC01F2080BB00CA3BE2 /* FeedbackGenerator.swift */,
 				ED6CAC3E1F1EFBC400CA3BE2 /* Info.plist */,
 			);
 			path = PictureInPicture;
@@ -145,8 +148,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				ED6CACB91F1FCF9500CA3BE2 /* UIApplication+setNeedsStatusBarAppearanceUpdate.swift in Sources */,
-				ED6CAC4B1F1EFBED00CA3BE2 /* PictureInPictureView.swift in Sources */,
 				ED6CAC4A1F1EFBED00CA3BE2 /* PictureInPicture.swift in Sources */,
+				ED6CACC11F2080BB00CA3BE2 /* FeedbackGenerator.swift in Sources */,
+				ED6CACBF1F2080B500CA3BE2 /* PictureInPictureWindow.swift in Sources */,
 				ED6CAC7D1F1F45C500CA3BE2 /* UIViewController+setNeedsUpdateConstraints.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
