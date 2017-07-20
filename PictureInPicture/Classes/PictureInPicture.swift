@@ -86,7 +86,9 @@ public final class PictureInPicture {
     return window?.currentCorner ?? PictureInPicture.defaultCorner
   }
   
-  private init() {}
+  private init() {
+    prepareNotification()
+  }
   
   private var windowCreateIfNeeded: PictureInPictureWindow {
     if let w = window { return w }
@@ -97,7 +99,27 @@ public final class PictureInPicture {
     return w
   }
   private(set) var window: PictureInPictureWindow?
-
+  private var keyWindow = UIApplication.shared.keyWindow
+  
+  private func prepareNotification() {
+    NotificationCenter.default.addObserver(self, selector: #selector(windowDidBecomeKey), name: .UIWindowDidBecomeKey, object: nil)
+    NotificationCenter.default.addObserver(self, selector: #selector(madeLarger), name: .PictureInPictureMadeLarger, object: nil)
+    NotificationCenter.default.addObserver(self, selector: #selector(madeSmaller), name: .PictureInPictureMadeSmaller, object: nil)
+  }
+  
+  @objc private func windowDidBecomeKey() {
+    if window == UIApplication.shared.keyWindow { return }
+    keyWindow = UIApplication.shared.keyWindow
+  }
+  
+  @objc private func madeLarger() {
+    window?.makeKeyAndVisible()
+  }
+  
+  @objc private func madeSmaller() {
+    keyWindow?.makeKeyAndVisible()
+  }
+  
   public enum HorizontalEdge {
     case left
     case right

@@ -21,7 +21,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="hvP-x2-UNu">
-                                <rect key="frame" x="84.5" y="280" width="205" height="106"/>
+                                <rect key="frame" x="84.5" y="242" width="205" height="182"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lW7-lE-GDL">
                                         <rect key="frame" x="0.0" y="0.0" width="205" height="30"/>
@@ -44,39 +44,67 @@
                                             <action selector="dismiss" destination="vXZ-lx-hvc" eventType="touchUpInside" id="wbd-nC-mkk"/>
                                         </connections>
                                     </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KRK-hv-fxe">
+                                        <rect key="frame" x="0.0" y="114" width="205" height="30"/>
+                                        <state key="normal" title="ChangeWindow"/>
+                                        <connections>
+                                            <action selector="changeWindow" destination="vXZ-lx-hvc" eventType="touchUpInside" id="PM1-ml-yLP"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BTy-2h-n1i">
+                                        <rect key="frame" x="0.0" y="152" width="205" height="30"/>
+                                        <state key="normal" title="ChangeRootViewController"/>
+                                        <connections>
+                                            <action selector="changeRootViewController" destination="vXZ-lx-hvc" eventType="touchUpInside" id="5OM-Si-v3W"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                             </stackView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KRK-hv-fxe">
-                                <rect key="frame" x="133" y="597" width="108" height="30"/>
-                                <state key="normal" title="ChangeWindow"/>
-                                <connections>
-                                    <action selector="changeWindow" destination="vXZ-lx-hvc" eventType="touchUpInside" id="PM1-ml-yLP"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BTy-2h-n1i">
-                                <rect key="frame" x="94" y="551" width="186" height="30"/>
-                                <state key="normal" title="ChangeRootViewController"/>
-                                <connections>
-                                    <action selector="changeRootViewController" destination="vXZ-lx-hvc" eventType="touchUpInside" id="5OM-Si-v3W"/>
-                                </connections>
-                            </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0Lt-hB-Stb">
                                 <rect key="frame" x="16" y="28" width="42" height="20.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="CO4-cO-BTL">
+                                <rect key="frame" x="0.0" y="467" width="375" height="200"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="200" id="Xp0-2j-hKw"/>
+                                </constraints>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="default" textLabel="teD-aO-nyD" style="IBUITableViewCellStyleDefault" id="Imi-e5-pKh">
+                                        <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Imi-e5-pKh" id="Oat-qs-dkZ">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="teD-aO-nyD">
+                                                    <rect key="frame" x="15" y="0.0" width="345" height="43.5"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="vXZ-lx-hvc" id="b6q-Mg-8YA"/>
+                                </connections>
+                            </tableView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="KRK-hv-fxe" firstAttribute="centerX" secondItem="kh9-bI-dsS" secondAttribute="centerX" id="2GV-Ih-T9t"/>
                             <constraint firstItem="0Lt-hB-Stb" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" constant="8" id="9jT-Dm-ACg"/>
-                            <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="KRK-hv-fxe" secondAttribute="bottom" constant="40" id="DHq-df-ov5"/>
+                            <constraint firstAttribute="trailing" secondItem="CO4-cO-BTL" secondAttribute="trailing" id="Hny-yQ-aof"/>
                             <constraint firstItem="hvP-x2-UNu" firstAttribute="centerY" secondItem="kh9-bI-dsS" secondAttribute="centerY" id="Tav-3h-c06"/>
-                            <constraint firstItem="KRK-hv-fxe" firstAttribute="top" secondItem="BTy-2h-n1i" secondAttribute="bottom" constant="16" id="YtZ-6A-YMl"/>
-                            <constraint firstItem="BTy-2h-n1i" firstAttribute="centerX" secondItem="kh9-bI-dsS" secondAttribute="centerX" id="cqd-tF-ydq"/>
+                            <constraint firstItem="CO4-cO-BTL" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" id="dEi-fV-F8P"/>
                             <constraint firstItem="hvP-x2-UNu" firstAttribute="centerX" secondItem="kh9-bI-dsS" secondAttribute="centerX" id="dge-NP-faO"/>
                             <constraint firstItem="0Lt-hB-Stb" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" constant="16" id="kf4-vo-Yjs"/>
+                            <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="CO4-cO-BTL" secondAttribute="bottom" id="ld5-mW-qbX"/>
                         </constraints>
                     </view>
                     <connections>

@@ -79,6 +79,8 @@ final class PictureInPictureWindow: UIWindow {
     layer.shadowOffset = PictureInPicture.shadowConfig.offset
     layer.shadowRadius = PictureInPicture.shadowConfig.radius
     layer.shadowOpacity = PictureInPicture.shadowConfig.opacity
+    
+    windowLevel = UIWindowLevelNormal + 1
   }
   
   required init?(coder aDecoder: NSCoder) {
