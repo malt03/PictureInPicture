@@ -73,6 +73,8 @@ final class PictureInPictureWindow: UIWindow {
     prepareNotifications()
     addGestureRecognizers()
     
+    FeedbackGenerator.shared.prepare()
+    
     layer.shadowColor = PictureInPicture.shadowConfig.color.cgColor
     layer.shadowOffset = PictureInPicture.shadowConfig.offset
     layer.shadowRadius = PictureInPicture.shadowConfig.radius
@@ -153,9 +155,12 @@ final class PictureInPictureWindow: UIWindow {
     return UIApplication.shared.delegate!.window!!
   }
   
+  private var lastRate: CGFloat?
+  
   private func panChanged(_ sender: UIPanGestureRecognizer) {
     if isLargeState || !PictureInPicture.movable {
       if isPanVectorVertical || isLargeState {
+        FeedbackGenerator.shared.prepare()
         let translation = sender.translation(in: mainWindow).y
         let location = sender.location(in: mainWindow).y
         let beginningLocation = location - translation
@@ -167,6 +172,8 @@ final class PictureInPictureWindow: UIWindow {
         } else {
           rate = 1 - min(1, max(0, translation / (centerWhenLarge - beginningLocation)))
         }
+        
+        lastRate = rate
         
         applyTransform(rate: rate)
       } else {
@@ -196,15 +203,18 @@ final class PictureInPictureWindow: UIWindow {
           v = velocity / (beginningLocation - location)
         }
         
+        if lastRate != 0 && lastRate != 1 {
+          FeedbackGenerator.shared.occurred()
+        }
         if isToSmall {
-          UIView.animate(withDuration: animationDuration, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: v, options: .curveLinear, animations: {
+          UIView.animate(withDuration: animationDuration, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: v, options: .curveEaseIn, animations: {
             self.applyTransform(rate: 1)
           }, completion: { _ in
             NotificationCenter.default.post(name: .PictureInPictureMadeSmaller, object: nil)
           })
           isLargeState = false
         } else {
-          UIView.animate(withDuration: animationDuration, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: v, options: .curveLinear, animations: {
+          UIView.animate(withDuration: animationDuration, delay: 0, usingSpringWithDamping: 10, initialSpringVelocity: v, options: .curveEaseIn, animations: {
             self.applyTransform(rate: 0)
           }, completion: { _ in
             NotificationCenter.default.post(name: .PictureInPictureMadeLarger, object: nil)
