@@ -311,10 +311,15 @@ final class PictureInPictureWindow: UIWindow {
   }
   
   @objc private func orientationDidChange() {
-    DispatchQueue.main.async {
-      self.bounds = UIScreen.main.bounds
-      self.applyTransform(rate: self.isLargeState ? 0 : 1, corner: self.currentCorner, translate: .zero)
+    if !isLargeState {
+      alpha = 0
+      DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+        self.alpha = 1
+      }
     }
+
+    bounds = UIScreen.main.bounds
+    applyTransform(rate: isLargeState ? 0 : 1, corner: currentCorner, translate: .zero)
   }
   
   @objc private func willChangeStatusBarFrame(_ notification: Notification) {
