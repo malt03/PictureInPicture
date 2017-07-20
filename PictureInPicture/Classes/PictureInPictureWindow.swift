@@ -289,7 +289,7 @@ final class PictureInPictureWindow: UIWindow {
       let oldValue = super.transform
       super.transform = newValue
       if oldValue.isIdentity != newValue.isIdentity {
-        bounds.size.height = newValue.isIdentity ? UIScreen.main.bounds.height : UIScreen.main.bounds.height - 0.00001
+        bounds.size.height = newValue.isIdentity ? UIScreen.main.bounds.height : UIScreen.main.bounds.height - .leastNonzeroMagnitude
         UIApplication.shared.setNeedsStatusBarAppearanceUpdate()
       }
     }
