@@ -313,7 +313,7 @@ final class PictureInPictureWindow: UIWindow {
   @objc private func orientationDidChange() {
     if !isLargeState {
       alpha = 0
-      DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+      DispatchQueue.main.asyncAfter(deadline: .now() + 0.31) {
         self.alpha = 1
       }
     }
