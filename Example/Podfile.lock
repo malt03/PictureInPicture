@@ -1,5 +1,5 @@
 PODS:
-  - PictureInPicture (0.1.0)
+  - PictureInPicture (0.1.10)
 
 DEPENDENCIES:
   - PictureInPicture (from `../`)
@@ -9,8 +9,8 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  PictureInPicture: a424086589d48ed1b22587bca2395db1fb06148c
+  PictureInPicture: 9eea4d6916c07ed4c8c92a9dc15c83377c27b90f
 
-PODFILE CHECKSUM: f42cf911f5521d5b16ba3909b7b876ac4b090853
+PODFILE CHECKSUM: a975284e0031450c8003cced1715e9d0930887cf
 
 COCOAPODS: 1.2.1
