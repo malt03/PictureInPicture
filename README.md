@@ -8,7 +8,8 @@
 
 ![ScreenShot](https://raw.githubusercontent.com/malt03/PictureInPicture/master/README/Screenshot.gif)
 
-## Configure
+## Usage
+### Configure
 If you want to change from default value.
 
 ```swift
@@ -20,7 +21,7 @@ PictureInPicture.configure(movable: true,
                            shadowConfig: shadowConfig)
 ```
 
-### Default Config
+#### Default Config
 ```swift
 PictureInPicture.configure(movable: true,
                            scale: 0.2,
@@ -29,12 +30,12 @@ PictureInPicture.configure(movable: true,
                            shadowConfig: .default)
 ```
 
-### Default Shadow Config
+#### Default Shadow Config
 ```swift
 ShadowConfig(color: .black, offset: .zero, radius: 5, opacity: 0.5)
 ```
 
-## Usage
+### Main Functions
 ```swift
 PictureInPicture.shared.present(with: viewController) // Present
 PictureInPicture.shared.dismiss()                     // Dismiss
@@ -43,7 +44,7 @@ PictureInPicture.shared.makeLarger()                  // Make Larger
 PictureInPicture.shared.presentingViewController      // Get presenting ViewController
 ```
 
-## Notifications
+### Notifications
 - PictureInPictureMadeSmaller
 - PictureInPictureMadeLarger
 - PictureInPictureMoved
@@ -51,16 +52,19 @@ PictureInPicture.shared.presentingViewController      // Get presenting ViewCont
   - PictureInPictureNewCornerUserInfoKey # PictureInPicture.Corner
 - PictureInPictureDismissed
 
-## Other Constants
+### Other Constants
 - UIWindowLevelPictureInPicture
 
 ## Installation
 
-PictureInPicture is available through [CocoaPods](http://cocoapods.org). To install
-it, simply add the following line to your Podfile:
-
+### Via CocoaPods
 ```ruby
 pod "PictureInPicture"
+```
+
+### Via Carthage
+```ruby
+github "malt03/PictureInPicture"
 ```
 
 ## Author
