@@ -13,6 +13,8 @@
 		607FACDD1AFB9204008FA782 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDC1AFB9204008FA782 /* Images.xcassets */; };
 		607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDE1AFB9204008FA782 /* LaunchScreen.xib */; };
 		9A023E28354E376AC4832FFA /* Pods_PictureInPicture_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D91AF708F077009BACA7F01F /* Pods_PictureInPicture_Example.framework */; };
+		ED02DDB11F2653D2004599D5 /* ModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED02DDB01F2653D2004599D5 /* ModalViewController.swift */; };
+		ED02DDB31F26C50E004599D5 /* PushViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED02DDB21F26C50E004599D5 /* PushViewController.swift */; };
 		ED6CAC291F1DD42900CA3BE2 /* PictureInPictureViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED6CAC281F1DD42900CA3BE2 /* PictureInPictureViewController.swift */; };
 		ED6CAC2B1F1DFA8500CA3BE2 /* NewWindowViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED6CAC2A1F1DFA8500CA3BE2 /* NewWindowViewController.swift */; };
 /* End PBXBuildFile section */
@@ -32,6 +34,8 @@
 		D7BE635C8EF391B207724EC3 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		D91AF708F077009BACA7F01F /* Pods_PictureInPicture_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PictureInPicture_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E6ADB58CEEECCFA151B509E1 /* Pods_PictureInPicture_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PictureInPicture_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		ED02DDB01F2653D2004599D5 /* ModalViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModalViewController.swift; sourceTree = "<group>"; };
+		ED02DDB21F26C50E004599D5 /* PushViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PushViewController.swift; sourceTree = "<group>"; };
 		ED6CAC281F1DD42900CA3BE2 /* PictureInPictureViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PictureInPictureViewController.swift; sourceTree = "<group>"; };
 		ED6CAC2A1F1DFA8500CA3BE2 /* NewWindowViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewWindowViewController.swift; sourceTree = "<group>"; };
 		FA8B54E2DCC3EC3A09045C6E /* Pods-PictureInPicture_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PictureInPicture_Example.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PictureInPicture_Example/Pods-PictureInPicture_Example.debug.xcconfig"; sourceTree = "<group>"; };
@@ -87,6 +91,8 @@
 				607FACD71AFB9204008FA782 /* ViewController.swift */,
 				ED6CAC281F1DD42900CA3BE2 /* PictureInPictureViewController.swift */,
 				ED6CAC2A1F1DFA8500CA3BE2 /* NewWindowViewController.swift */,
+				ED02DDB01F2653D2004599D5 /* ModalViewController.swift */,
+				ED02DDB21F26C50E004599D5 /* PushViewController.swift */,
 				607FACD91AFB9204008FA782 /* Main.storyboard */,
 				607FACDC1AFB9204008FA782 /* Images.xcassets */,
 				607FACDE1AFB9204008FA782 /* LaunchScreen.xib */,
@@ -249,6 +255,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				607FACD81AFB9204008FA782 /* ViewController.swift in Sources */,
+				ED02DDB11F2653D2004599D5 /* ModalViewController.swift in Sources */,
+				ED02DDB31F26C50E004599D5 /* PushViewController.swift in Sources */,
 				ED6CAC2B1F1DFA8500CA3BE2 /* NewWindowViewController.swift in Sources */,
 				607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */,
 				ED6CAC291F1DD42900CA3BE2 /* PictureInPictureViewController.swift in Sources */,

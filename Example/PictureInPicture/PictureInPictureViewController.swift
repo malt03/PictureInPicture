@@ -39,4 +39,18 @@ final class PictureInPictureViewController: UIViewController, UITableViewDataSou
   override var preferredStatusBarStyle: UIStatusBarStyle {
     return .lightContent
   }
+  
+  override func viewWillDisappear(_ animated: Bool) {
+    super.viewWillDisappear(animated)
+    print("willDisappear")
+  }
+  
+  override func viewDidDisappear(_ animated: Bool) {
+    super.viewDidDisappear(animated)
+    print("didDisappear")
+  }
+  
+  deinit {
+    print("deinitted")
+  }
 }

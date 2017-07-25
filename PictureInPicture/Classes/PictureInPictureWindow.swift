@@ -34,20 +34,26 @@ final class PictureInPictureWindow: UIWindow {
         UIView.animate(withDuration: animationDuration, animations: {
           self.frame.origin.y = UIScreen.main.bounds.height
         }, completion: { _ in
-          self.disposeHandler()
-          NotificationCenter.default.post(name: .PictureInPictureDismissed, object: nil)
+          self.rootViewController?.dismissWithPresentedViewController {
+            self.disposeHandler()
+            NotificationCenter.default.post(name: .PictureInPictureDismissed, object: nil)
+          }
         })
       } else {
         UIView.animate(withDuration: animationDuration, animations: {
           self.alpha = 0
         }, completion: { _ in
-          self.disposeHandler()
-          NotificationCenter.default.post(name: .PictureInPictureDismissed, object: nil)
+          self.rootViewController?.dismissWithPresentedViewController {
+            self.disposeHandler()
+            NotificationCenter.default.post(name: .PictureInPictureDismissed, object: nil)
+          }
         })
       }
     } else {
-      self.disposeHandler()
-      NotificationCenter.default.post(name: .PictureInPictureDismissed, object: nil)
+      self.rootViewController?.dismissWithPresentedViewController {
+        self.disposeHandler()
+        NotificationCenter.default.post(name: .PictureInPictureDismissed, object: nil)
+      }
     }
   }
   
