@@ -17,6 +17,7 @@ extension Notification.Name {
 
 public let PictureInPictureOldCornerUserInfoKey = "PictureInPictureOldCornerUserInfoKey"
 public let PictureInPictureNewCornerUserInfoKey = "PictureInPictureNewCornerUserInfoKey"
+public let UIWindowLevelPictureInPicture = UIWindowLevelNormal + 1
 
 public final class PictureInPicture {
   public struct ShadowConfig {
