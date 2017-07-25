@@ -12,6 +12,8 @@ final class PictureInPictureWindow: UIWindow {
   private var animationDuration: TimeInterval { return 0.2 }
   private var beforePresenting = true
   
+  private let userInterfaceShutoutView = UIView()
+  
   func present(with viewController: UIViewController, makeLargerIfNeeded: Bool) {
     rootViewController = viewController
     
@@ -87,6 +89,9 @@ final class PictureInPictureWindow: UIWindow {
     layer.shadowOpacity = PictureInPicture.shadowConfig.opacity
     
     windowLevel = UIWindowLevelPictureInPicture
+    
+    userInterfaceShutoutView.frame = UIScreen.main.bounds
+    userInterfaceShutoutView.backgroundColor = .clear
   }
   
   required init?(coder aDecoder: NSCoder) {
@@ -150,7 +155,11 @@ final class PictureInPictureWindow: UIWindow {
   
   private(set) var isLargeState = true {
     didSet {
-      rootViewController?.view.isUserInteractionEnabled = isLargeState
+      if isLargeState {
+        userInterfaceShutoutView.removeFromSuperview()
+      } else {
+        addSubview(userInterfaceShutoutView)
+      }
       tapGestureRecognizer.isEnabled = !isLargeState
       rootViewController?.setNeedsUpdateConstraints()
     }
