@@ -51,6 +51,8 @@ PictureInPicture.shared.presentingViewController      // Get presenting ViewCont
   - PictureInPictureNewCornerUserInfoKey # PictureInPicture.Corner
 - PictureInPictureDismissed
 
+## Other Constants
+- UIWindowLevelPictureInPicture
 
 ## Installation
 
