@@ -323,13 +323,15 @@ final class PictureInPictureWindow: UIWindow {
   }
   
   private func prepareNotifications() {
-    NotificationCenter.default.addObserver(self, selector: #selector(orientationDidChange), name: .UIDeviceOrientationDidChange, object: nil)
+    NotificationCenter.default.addObserver(self, selector: #selector(orientationDidChange), name: .UIApplicationDidChangeStatusBarOrientation, object: nil)
     NotificationCenter.default.addObserver(self, selector: #selector(willChangeStatusBarFrame(_:)), name: .UIApplicationWillChangeStatusBarFrame, object: nil)
   }
   
   @objc private func orientationDidChange() {
     if !isLargeState {
-      alpha = 0
+      UIView.performWithoutAnimation {
+        self.alpha = 0
+      }
       DispatchQueue.main.asyncAfter(deadline: .now() + 0.31) {
         self.alpha = 1
       }
