@@ -15,18 +15,25 @@ final class PictureInPictureWindow: UIWindow {
   private let userInterfaceShutoutView = UIView()
   
   func present(with viewController: UIViewController, makeLargerIfNeeded: Bool) {
-    rootViewController = viewController
-    
-    if beforePresenting {
-      beforePresenting = false
-      bounds = UIScreen.main.bounds
-      frame.origin.y = UIScreen.main.bounds.height
-      UIView.animate(withDuration: animationDuration, delay: 0, options: .curveEaseOut, animations: {
-        self.frame.origin.y = 0
-      }, completion: nil)
-      makeKeyAndVisible()
-    } else if makeLargerIfNeeded {
-      applyLarge()
+    let handler = {
+      self.rootViewController = viewController
+      
+      if self.beforePresenting {
+        self.beforePresenting = false
+        self.bounds = UIScreen.main.bounds
+        self.frame.origin.y = UIScreen.main.bounds.height
+        UIView.animate(withDuration: self.animationDuration, delay: 0, options: .curveEaseOut, animations: {
+          self.frame.origin.y = 0
+        }, completion: nil)
+        self.makeKeyAndVisible()
+      } else if makeLargerIfNeeded {
+        self.applyLarge()
+      }
+    }
+    if let rootViewController = rootViewController {
+      rootViewController.dismissPresentedViewControllers(completion: handler)
+    } else {
+      handler()
     }
   }
   
@@ -36,7 +43,7 @@ final class PictureInPictureWindow: UIWindow {
         UIView.animate(withDuration: animationDuration, animations: {
           self.frame.origin.y = UIScreen.main.bounds.height
         }, completion: { _ in
-          self.rootViewController?.dismissWithPresentedViewController {
+          self.rootViewController?.dismissPresentedViewControllers {
             self.disposeHandler()
             NotificationCenter.default.post(name: .PictureInPictureDismissed, object: nil)
           }
@@ -45,14 +52,14 @@ final class PictureInPictureWindow: UIWindow {
         UIView.animate(withDuration: animationDuration, animations: {
           self.alpha = 0
         }, completion: { _ in
-          self.rootViewController?.dismissWithPresentedViewController {
+          self.rootViewController?.dismissPresentedViewControllers {
             self.disposeHandler()
             NotificationCenter.default.post(name: .PictureInPictureDismissed, object: nil)
           }
         })
       }
     } else {
-      self.rootViewController?.dismissWithPresentedViewController {
+      self.rootViewController?.dismissPresentedViewControllers {
         self.disposeHandler()
         NotificationCenter.default.post(name: .PictureInPictureDismissed, object: nil)
       }
