@@ -41,7 +41,7 @@ PictureInPicture.shared.present(with: viewController) // Present
 PictureInPicture.shared.dismiss()                     // Dismiss
 PictureInPicture.shared.makeSmaller()                 // Make Smaller
 PictureInPicture.shared.makeLarger()                  // Make Larger
-PictureInPicture.shared.presentedViewController       // Get presenting ViewController
+PictureInPicture.shared.presentedViewController       // Get presented ViewController
 ```
 
 ### Notifications
