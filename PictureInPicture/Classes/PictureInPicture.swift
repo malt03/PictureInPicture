@@ -79,7 +79,7 @@ public final class PictureInPicture {
     window = nil
   }
   
-  public var presentingViewController: UIViewController? {
+  public var presentedViewController: UIViewController? {
     return window?.rootViewController
   }
   

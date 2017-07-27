@@ -38,6 +38,14 @@ final class ViewController: UIViewController {
     UIApplication.shared.keyWindow?.rootViewController = UIStoryboard(name: "Main", bundle: .main).instantiateInitialViewController()
   }
 
+  @IBAction func printPresented() {
+    guard let vc = PictureInPicture.shared.presentedViewController else {
+      print("nil")
+      return
+    }
+    print(vc)
+  }
+  
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
     observeNotifications()
