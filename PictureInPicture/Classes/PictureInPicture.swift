@@ -77,6 +77,7 @@ public final class PictureInPicture {
   public func dismiss(animation: Bool = true) {
     window?.dismiss(animation: animation)
     window = nil
+    keyWindow?.makeKeyAndVisible()
   }
   
   public var presentedViewController: UIViewController? {
