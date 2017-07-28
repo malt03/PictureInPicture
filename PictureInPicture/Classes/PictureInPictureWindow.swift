@@ -193,9 +193,9 @@ final class PictureInPictureWindow: UIWindow {
         let rate: CGFloat
         
         if isLargeState {
-          rate = min(1, max(0, translation / (centerWhenSmall - beginningLocation)))
+          rate = min(1, max(0, translation / (locationWhenSmall(y: beginningLocation) - beginningLocation)))
         } else {
-          rate = 1 - min(1, max(0, translation / (centerWhenLarge - beginningLocation)))
+          rate = 1 - min(1, max(0, translation / (locationWhenLarge(y: beginningLocation) - beginningLocation)))
         }
         
         lastRate = rate
@@ -215,7 +215,7 @@ final class PictureInPictureWindow: UIWindow {
         let translation = sender.translation(in: mainWindow).y
         let location = sender.location(in: mainWindow).y
         let beginningLocation = location - translation
-        let endLocation = isLargeState ? centerWhenSmall : centerWhenLarge
+        let endLocation = isLargeState ? locationWhenSmall(y: beginningLocation) : locationWhenLarge(y: beginningLocation)
         let velocity = sender.velocity(in: mainWindow).y
         
         let isApply = (location + velocity * 0.1 - beginningLocation) / (endLocation - beginningLocation) > 0.5
@@ -299,8 +299,8 @@ final class PictureInPictureWindow: UIWindow {
   }
   
   private var centerEdgeDistance: CGFloat { return 0.5 - PictureInPicture.scale / 2 }
-  private var centerWhenSmall: CGFloat { return UIScreen.main.bounds.height - bounds.height * PictureInPicture.scale / 2 - PictureInPicture.margin }
-  private var centerWhenLarge: CGFloat { return UIScreen.main.bounds.height / 2 }
+  private func locationWhenSmall(y: CGFloat) -> CGFloat { return UIScreen.main.bounds.height - (bounds.height - y) * PictureInPicture.scale - PictureInPicture.margin }
+  private func locationWhenLarge(y: CGFloat) -> CGFloat { return bounds.height + (PictureInPicture.margin + y - UIScreen.main.bounds.height) / PictureInPicture.scale }
   
   private func applyTransform(rate: CGFloat = 1, corner: PictureInPicture.Corner = PictureInPicture.defaultCorner, translate: CGPoint = .zero) {
     let x: CGFloat
