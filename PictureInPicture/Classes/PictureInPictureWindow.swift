@@ -342,11 +342,9 @@ final class PictureInPictureWindow: UIWindow {
   
   @objc private func orientationDidChange() {
     if !isLargeState {
-      UIView.performWithoutAnimation {
-        self.alpha = 0
-      }
-      DispatchQueue.main.asyncAfter(deadline: .now() + 0.31) {
-        self.alpha = 1
+      layer.masksToBounds = true
+      DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
+        self.layer.masksToBounds = false
       }
     }
 
