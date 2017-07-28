@@ -68,6 +68,8 @@ extension ViewController {
     NotificationCenter.default.addObserver(self, selector: #selector(pictureInPictureMadeLarger), name: .PictureInPictureMadeLarger, object: nil)
     NotificationCenter.default.addObserver(self, selector: #selector(pictureInPictureMoved(_:)), name: .PictureInPictureMoved, object: nil)
     NotificationCenter.default.addObserver(self, selector: #selector(pictureInPictureDismissed), name: .PictureInPictureDismissed, object: nil)
+    NotificationCenter.default.addObserver(self, selector: #selector(pictureInPictureDidBeginMakingSmaller), name: .PictureInPictureDidBeginMakingSmaller, object: nil)
+    NotificationCenter.default.addObserver(self, selector: #selector(pictureInPictureDidBeginMakingLarger), name: .PictureInPictureDidBeginMakingLarger, object: nil)
   }
   
   @objc private func pictureInPictureMadeSmaller() {
@@ -87,6 +89,14 @@ extension ViewController {
   
   @objc private func pictureInPictureDismissed() {
     print("pictureInPictureDismissed")
+  }
+  
+  @objc private func pictureInPictureDidBeginMakingSmaller() {
+    print("pictureInPictureDidBeginMakingSmaller")
+  }
+  
+  @objc private func pictureInPictureDidBeginMakingLarger() {
+    print("pictureInPictureDidBeginMakingLarger")
   }
 }
 
