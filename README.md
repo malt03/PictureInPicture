@@ -47,6 +47,8 @@ PictureInPicture.shared.presentedViewController       // Get presented ViewContr
 ### Notifications
 - PictureInPictureMadeSmaller
 - PictureInPictureMadeLarger
+- PictureInPictureDidBeginMakingSmaller
+- PictureInPictureDidBeginMakingLarger
 - PictureInPictureMoved
   - PictureInPictureOldCornerUserInfoKey # PictureInPicture.Corner
   - PictureInPictureNewCornerUserInfoKey # PictureInPicture.Corner
