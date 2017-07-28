@@ -112,6 +112,7 @@ final class PictureInPictureWindow: UIWindow {
   
   private func addGestureRecognizers() {
     panGestureRecognizer.addTarget(self, action: #selector(panned(_:)))
+    panGestureRecognizer.maximumNumberOfTouches = 1
     tapGestureRecognizer.addTarget(self, action: #selector(tapped))
     addGestureRecognizer(panGestureRecognizer)
     addGestureRecognizer(tapGestureRecognizer)
