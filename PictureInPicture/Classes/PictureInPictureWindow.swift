@@ -126,6 +126,7 @@ final class PictureInPictureWindow: UIWindow {
   func applyLarge() {
     if isLargeState { return }
     currentCorner = PictureInPicture.defaultCorner
+    NotificationCenter.default.post(name: .PictureInPictureDidBeginMakingLarger, object: nil)
     UIView.animate(withDuration: animationDuration, delay: 0, options: .curveEaseOut, animations: {
       self.applyTransform(rate: 0)
     }, completion: { _ in
@@ -136,6 +137,7 @@ final class PictureInPictureWindow: UIWindow {
   
   func applySmall() {
     if !isLargeState { return }
+    NotificationCenter.default.post(name: .PictureInPictureDidBeginMakingSmaller, object: nil)
     UIView.animate(withDuration: animationDuration, delay: 0, options: .curveEaseOut, animations: {
       self.applyTransform(rate: 1)
     }, completion: { _ in
@@ -180,7 +182,7 @@ final class PictureInPictureWindow: UIWindow {
     return UIApplication.shared.delegate!.window!!
   }
   
-  private var lastRate: CGFloat?
+  private var lastRate = CGFloat(0)
   
   private func panChanged(_ sender: UIPanGestureRecognizer) {
     if isLargeState || !PictureInPicture.movable {
@@ -197,9 +199,11 @@ final class PictureInPictureWindow: UIWindow {
         } else {
           rate = 1 - min(1, max(0, translation / (locationWhenLarge(y: beginningLocation) - beginningLocation)))
         }
-        
-        lastRate = rate
-        
+
+        if rate != 1 && lastRate == 1 { NotificationCenter.default.post(name: .PictureInPictureDidBeginMakingLarger, object: nil) }
+        if rate != 0 && lastRate == 0 { NotificationCenter.default.post(name: .PictureInPictureDidBeginMakingSmaller, object: nil) }
+        if rate == 0 && lastRate != 0 { NotificationCenter.default.post(name: .PictureInPictureMadeLarger, object: nil) }
+        if rate == 1 && lastRate != 1 { NotificationCenter.default.post(name: .PictureInPictureMadeSmaller, object: nil) }
         applyTransform(rate: rate)
       } else {
         applyTransform(translate: CGPoint(x: sender.translation(in: mainWindow).x, y: 0))
@@ -230,22 +234,22 @@ final class PictureInPictureWindow: UIWindow {
         
         if lastRate != 0 && lastRate != 1 {
           FeedbackGenerator.shared.occurred()
+
+          if isToSmall {
+            UIView.animate(withDuration: animationDuration, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: v, options: .curveEaseIn, animations: {
+              self.applyTransform(rate: 1)
+            }, completion: { _ in
+              NotificationCenter.default.post(name: .PictureInPictureMadeSmaller, object: nil)
+            })
+          } else {
+            UIView.animate(withDuration: animationDuration, delay: 0, usingSpringWithDamping: 10, initialSpringVelocity: v, options: .curveEaseIn, animations: {
+              self.applyTransform(rate: 0)
+            }, completion: { _ in
+              NotificationCenter.default.post(name: .PictureInPictureMadeLarger, object: nil)
+            })
+          }
         }
-        if isToSmall {
-          UIView.animate(withDuration: animationDuration, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: v, options: .curveEaseIn, animations: {
-            self.applyTransform(rate: 1)
-          }, completion: { _ in
-            NotificationCenter.default.post(name: .PictureInPictureMadeSmaller, object: nil)
-          })
-          isLargeState = false
-        } else {
-          UIView.animate(withDuration: animationDuration, delay: 0, usingSpringWithDamping: 10, initialSpringVelocity: v, options: .curveEaseIn, animations: {
-            self.applyTransform(rate: 0)
-          }, completion: { _ in
-            NotificationCenter.default.post(name: .PictureInPictureMadeLarger, object: nil)
-          })
-          isLargeState = true
-        }
+        isLargeState = !isToSmall
       } else {
         let location = sender.location(in: mainWindow).x
         let velocity = sender.velocity(in: mainWindow).x
@@ -316,6 +320,7 @@ final class PictureInPictureWindow: UIWindow {
     center = CGPoint(x: x + translate.x + UIScreen.main.bounds.width / 2, y: y + translate.y + UIScreen.main.bounds.height / 2)
     let applyScale = 1 - (1 - PictureInPicture.scale) * rate
     transform = CGAffineTransform(scaleX: applyScale, y: applyScale)
+    lastRate = rate
   }
   
   override var transform: CGAffineTransform {

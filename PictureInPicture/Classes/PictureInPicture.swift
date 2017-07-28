@@ -11,6 +11,8 @@ import Foundation
 extension Notification.Name {
   public static let PictureInPictureMadeSmaller = Notification.Name(rawValue: "PictureInPictureMadeSmaller")
   public static let PictureInPictureMadeLarger = Notification.Name(rawValue: "PictureInPictureMadeLarger")
+  public static let PictureInPictureDidBeginMakingSmaller = Notification.Name(rawValue: "PictureInPictureDidBeginMakingSmaller")
+  public static let PictureInPictureDidBeginMakingLarger = Notification.Name(rawValue: "PictureInPictureDidBeginMakingLarger")
   public static let PictureInPictureMoved = Notification.Name(rawValue: "PictureInPictureMoved")
   public static let PictureInPictureDismissed = Notification.Name(rawValue: "PictureInPictureDismissed")
 }
@@ -106,7 +108,7 @@ public final class PictureInPicture {
   private func prepareNotification() {
     NotificationCenter.default.addObserver(self, selector: #selector(windowDidBecomeKey), name: .UIWindowDidBecomeKey, object: nil)
     NotificationCenter.default.addObserver(self, selector: #selector(madeLarger), name: .PictureInPictureMadeLarger, object: nil)
-    NotificationCenter.default.addObserver(self, selector: #selector(madeSmaller), name: .PictureInPictureMadeSmaller, object: nil)
+    NotificationCenter.default.addObserver(self, selector: #selector(didBeginMakingSmaller), name: .PictureInPictureDidBeginMakingSmaller, object: nil)
   }
   
   @objc private func windowDidBecomeKey() {
@@ -118,7 +120,7 @@ public final class PictureInPicture {
     window?.makeKeyAndVisible()
   }
   
-  @objc private func madeSmaller() {
+  @objc private func didBeginMakingSmaller() {
     keyWindow?.makeKeyAndVisible()
   }
   
