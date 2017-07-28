@@ -77,7 +77,6 @@ public final class PictureInPicture {
   public func dismiss(animation: Bool = true) {
     window?.dismiss(animation: animation)
     window = nil
-    keyWindow?.makeKeyAndVisible()
   }
   
   public var presentedViewController: UIViewController? {
@@ -95,6 +94,7 @@ public final class PictureInPicture {
   private var windowCreateIfNeeded: PictureInPictureWindow {
     if let w = window { return w }
     let w = PictureInPictureWindow {
+      self.keyWindow?.makeKeyAndVisible()
       self.window = nil
     }
     window = w
