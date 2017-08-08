@@ -113,6 +113,7 @@ final class PictureInPictureWindow: UIWindow {
   private func addGestureRecognizers() {
     panGestureRecognizer.addTarget(self, action: #selector(panned(_:)))
     panGestureRecognizer.maximumNumberOfTouches = 1
+    panGestureRecognizer.delegate = self
     tapGestureRecognizer.addTarget(self, action: #selector(tapped))
     addGestureRecognizer(panGestureRecognizer)
     addGestureRecognizer(tapGestureRecognizer)
@@ -357,5 +358,13 @@ final class PictureInPictureWindow: UIWindow {
     UIView.animate(withDuration: 0.35) {
       self.applyTransform(corner: self.currentCorner)
     }
+  }
+}
+
+extension PictureInPictureWindow: UIGestureRecognizerDelegate {
+  override func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+    guard let panGestureRecognizer = gestureRecognizer as? UIPanGestureRecognizer else { return true }
+    let velocity = panGestureRecognizer.velocity(in: self)
+    return abs(velocity.x) < abs(velocity.y)
   }
 }
