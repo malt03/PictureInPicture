@@ -363,6 +363,7 @@ final class PictureInPictureWindow: UIWindow {
 
 extension PictureInPictureWindow: UIGestureRecognizerDelegate {
   override func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+    if !isLargeState { return true }
     guard let panGestureRecognizer = gestureRecognizer as? UIPanGestureRecognizer else { return true }
     let velocity = panGestureRecognizer.velocity(in: self)
     return abs(velocity.x) < abs(velocity.y)
