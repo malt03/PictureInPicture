@@ -16,7 +16,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
     let shadowConfig = PictureInPicture.ShadowConfig(color: .black, offset: .zero, radius: 10, opacity: 1)
-    PictureInPicture.configure(movable: false, scale: 0.3, margin: 10, defaultEdge: .left, shadowConfig: shadowConfig)
+    PictureInPicture.configure(movable: true, scale: 0.3, margin: 10, defaultEdge: .right, shadowConfig: shadowConfig)
     return true
   }
 }

@@ -314,9 +314,24 @@ final class PictureInPictureWindow: UIWindow {
     case .left:  x = rate * (-UIScreen.main.bounds.width * centerEdgeDistance + PictureInPicture.margin)
     case .right: x = rate * (UIScreen.main.bounds.width * centerEdgeDistance - PictureInPicture.margin)
     }
+    
     switch corner.verticalEdge {
-    case .top:    y = rate * (-UIScreen.main.bounds.height * centerEdgeDistance + PictureInPicture.margin + UIApplication.shared.statusBarFrame.height)
-    case .bottom: y = rate * (UIScreen.main.bounds.height * centerEdgeDistance - PictureInPicture.margin)
+    case .top:
+      let top: CGFloat
+      if #available(iOS 11.0, *) {
+        top = mainWindow.safeAreaInsets.top
+      } else {
+        top = UIApplication.shared.statusBarFrame.height
+      }
+      y = rate * (-UIScreen.main.bounds.height * centerEdgeDistance + PictureInPicture.margin + top)
+    case .bottom:
+      let bottom: CGFloat
+      if #available(iOS 11.0, *) {
+        bottom = mainWindow.safeAreaInsets.bottom
+      } else {
+        bottom = 0
+      }
+      y = rate * (UIScreen.main.bounds.height * centerEdgeDistance - PictureInPicture.margin - bottom)
     }
     center = CGPoint(x: x + translate.x + UIScreen.main.bounds.width / 2, y: y + translate.y + UIScreen.main.bounds.height / 2)
     let applyScale = 1 - (1 - PictureInPicture.scale) * rate
@@ -349,7 +364,10 @@ final class PictureInPictureWindow: UIWindow {
       }
     }
 
-    bounds = UIScreen.main.bounds
+    if #available(iOS 11.0, *) {
+    } else {
+      bounds = UIScreen.main.bounds
+    }
     applyTransform(rate: isLargeState ? 0 : 1, corner: currentCorner, translate: .zero)
   }
   
