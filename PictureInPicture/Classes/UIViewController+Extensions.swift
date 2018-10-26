@@ -10,7 +10,7 @@ import UIKit
 
 extension UIViewController {
   func setNeedsUpdateConstraints() {
-    childViewControllers.forEach { $0.setNeedsUpdateConstraints() }
+    children.forEach { $0.setNeedsUpdateConstraints() }
     view.setNeedsUpdateConstraints()
   }
   

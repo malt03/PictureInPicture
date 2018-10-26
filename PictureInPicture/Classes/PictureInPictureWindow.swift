@@ -352,8 +352,8 @@ final class PictureInPictureWindow: UIWindow {
   }
   
   private func prepareNotifications() {
-    NotificationCenter.default.addObserver(self, selector: #selector(orientationDidChange), name: .UIApplicationDidChangeStatusBarOrientation, object: nil)
-    NotificationCenter.default.addObserver(self, selector: #selector(willChangeStatusBarFrame(_:)), name: .UIApplicationWillChangeStatusBarFrame, object: nil)
+    NotificationCenter.default.addObserver(self, selector: #selector(orientationDidChange), name: UIApplication.didChangeStatusBarOrientationNotification, object: nil)
+    NotificationCenter.default.addObserver(self, selector: #selector(willChangeStatusBarFrame(_:)), name: UIApplication.willChangeStatusBarFrameNotification, object: nil)
   }
   
   @objc private func orientationDidChange() {
