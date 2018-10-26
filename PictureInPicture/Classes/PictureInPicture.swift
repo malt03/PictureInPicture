@@ -19,7 +19,7 @@ extension Notification.Name {
 
 public let PictureInPictureOldCornerUserInfoKey = "PictureInPictureOldCornerUserInfoKey"
 public let PictureInPictureNewCornerUserInfoKey = "PictureInPictureNewCornerUserInfoKey"
-public let UIWindowLevelPictureInPicture = UIWindowLevelNormal + 1
+public let UIWindowLevelPictureInPicture = UIWindow.Level.normal + 1
 
 public final class PictureInPicture {
   public struct ShadowConfig {
@@ -106,7 +106,7 @@ public final class PictureInPicture {
   private var keyWindow = UIApplication.shared.keyWindow
   
   private func prepareNotification() {
-    NotificationCenter.default.addObserver(self, selector: #selector(windowDidBecomeKey), name: .UIWindowDidBecomeKey, object: nil)
+    NotificationCenter.default.addObserver(self, selector: #selector(windowDidBecomeKey), name: UIWindow.didBecomeKeyNotification, object: nil)
     NotificationCenter.default.addObserver(self, selector: #selector(madeLarger), name: .PictureInPictureMadeLarger, object: nil)
     NotificationCenter.default.addObserver(self, selector: #selector(didBeginMakingSmaller), name: .PictureInPictureDidBeginMakingSmaller, object: nil)
   }
